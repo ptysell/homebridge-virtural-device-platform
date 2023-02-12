@@ -43,8 +43,10 @@ class ExampleHomebridgePlatform {
      * must not be registered again to prevent "duplicate UUID" errors.
      */
     discoverDevices() {
-        const TestConfig = this.config;
-        this.log.error('VDP Home:', TestConfig.home);
+        setInterval(() => {
+            const TestConfig = this.config;
+            this.log.error('VDP Home:', TestConfig.home);
+        }, 10000);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.

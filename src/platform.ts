@@ -50,8 +50,10 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    */
   discoverDevices() {
 
-    const TestConfig: VDP_CONFIGURATION = this.config;
-    this.log.error('VDP Home:', TestConfig.home);
+    setInterval(() => {
+      const TestConfig: VDP_CONFIGURATION = this.config;
+      this.log.error('VDP Home:', TestConfig.home);
+    }, 10000);
 
     // EXAMPLE ONLY
     // A real plugin you would discover accessories from the local network, cloud services
