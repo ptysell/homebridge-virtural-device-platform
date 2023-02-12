@@ -1,6 +1,6 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
+import { PLATFORM_NAME, PLUGIN_NAME, VDP_CONFIGURATION } from './settings';
 import { ExamplePlatformAccessory } from './platformAccessory';
 
 /**
@@ -21,7 +21,6 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
-
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
     // in order to ensure they weren't added to homebridge already. This event can also be used
@@ -50,6 +49,9 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
   discoverDevices() {
+
+    const TestConfig: VDP_CONFIGURATION = this.config;
+    this.log.error('VDP Home:', TestConfig.VDPHome);
 
     // EXAMPLE ONLY
     // A real plugin you would discover accessories from the local network, cloud services

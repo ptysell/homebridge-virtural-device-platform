@@ -1,6 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
-
 import { ExampleHomebridgePlatform } from './platform';
+import { PLATFORM_NAME, VDP_CONFIGURATION } from './settings';
 
 /**
  * Platform Accessory
@@ -18,6 +18,7 @@ export class ExamplePlatformAccessory {
     On: false,
     Brightness: 100,
   };
+
 
   constructor(
     private readonly platform: ExampleHomebridgePlatform,

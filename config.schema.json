@@ -10,6 +10,13 @@
         "type": "string",
         "required": true,
         "default": "Example Dynamic Platform"
+      },
+      "home": {
+        "title": "Home",
+        "type": "string",
+        "required": true,
+        "default": "Test Home"
+
       }
     }
   }

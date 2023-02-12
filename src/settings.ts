@@ -1,9 +1,10 @@
-/**
- * This is the name of the platform that users will use to register the plugin in the Homebridge config.json
- */
-export const PLATFORM_NAME = 'virtual-device-platform';
+import { PlatformConfig } from 'homebridge';
 
-/**
- * This must match the name of your plugin as defined the package.json
- */
+export const PLATFORM_NAME = 'virtual-device-platform';
 export const PLUGIN_NAME = 'homebridge-virtual-device-platform';
+
+type VDPConfiguration = {
+        VDPHome? : string;
+    };
+
+export type VDP_CONFIGURATION = PlatformConfig & VDPConfiguration;
