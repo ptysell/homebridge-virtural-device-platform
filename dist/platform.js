@@ -44,7 +44,7 @@ class ExampleHomebridgePlatform {
      */
     discoverDevices() {
         const TestConfig = this.config;
-        this.log.error('VDP Home:', TestConfig.VDPHome);
+        this.log.error('VDP Home:', TestConfig.home);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.
