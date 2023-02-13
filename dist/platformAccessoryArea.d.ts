@@ -5,7 +5,7 @@ export declare class VDPAreaAccessory {
     private readonly platform;
     private readonly accessory;
     private readonly room;
-    readonly name: string | unknown;
+    readonly name: string;
     private uuid;
     private manufacturer;
     private model;

@@ -4,7 +4,7 @@ import { VDPRoomAccessory } from './platformAccessoryRoom';
 
 export class VDPAreaAccessory {
 
-    public readonly name: string | unknown;
+    public readonly name: string;
     private uuid: string | unknown;
 
 
@@ -36,7 +36,7 @@ export class VDPAreaAccessory {
 
               this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
 
-              this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.exampleDisplayName);
+              this.service.setCharacteristic(this.platform.Characteristic.Name, this.name);
 
               this.service.getCharacteristic(this.platform.Characteristic.On)
                   .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
