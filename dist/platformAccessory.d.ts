@@ -14,7 +14,7 @@ export declare class VDPPlatformAccessory {
     private readonly platform;
     private readonly accessory;
     private readonly accessoryType;
-    private name;
+    name: string;
     private roomUUID;
     private areaUUID;
     private accessoryUUID;

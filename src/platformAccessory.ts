@@ -14,7 +14,7 @@ export enum accessoryType {
  */
 export class VDPPlatformAccessory {
 
-    private name: string;
+    public name: string;
 
     private roomUUID: string | unknown;
     private areaUUID: string | unknown;
