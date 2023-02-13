@@ -53,7 +53,7 @@ class VDPHomebridgePlatform {
                 roomID: 'Room01',
                 roomName: 'Room 01',
                 roomAreas: [{
-                        areaID: 'Area01',
+                        areaID: 'Room01Area01',
                         areaName: 'Room 01 Area 01',
                         areaAccessories: [{
                                 accessoryID: 'Room01Area01Accessory01',
@@ -62,6 +62,26 @@ class VDPHomebridgePlatform {
                             {
                                 accessoryID: 'Room01Area01Accessory02',
                                 accessoryName: 'Room 01 Area 01 Accessory 02',
+                            },
+                            {
+                                accessoryID: 'Room01Area01Accessory03',
+                                accessoryName: 'Room 01 Area 01 Accessory 03',
+                            },
+                        ],
+                    }, {
+                        areaID: 'Room01Area02',
+                        areaName: 'Room 01 Area 02',
+                        areaAccessories: [{
+                                accessoryID: 'Room01Area02Accessory01',
+                                accessoryName: 'Room 01 Area 02 Accessory 01',
+                            },
+                            {
+                                accessoryID: 'Room01Area02Accessory02',
+                                accessoryName: 'Room 01 Area 02 Accessory 02',
+                            },
+                            {
+                                accessoryID: 'Room01Area01Accessory03',
+                                accessoryName: 'Room 01 Area 02 Accessory 03',
                             },
                         ],
                     }],
