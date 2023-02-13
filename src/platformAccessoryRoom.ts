@@ -10,7 +10,7 @@ export class VDPRoomAccessory {
     private name: string;
     private uuid: string;
 
-    private areaAccessories: VDPAreaAccessory[];
+    public areaAccessories: VDPAreaAccessory[];
 
     private manufacturer = DEVICE_MANUFACTURER;
     private model = DEVICE_MODEL;

@@ -95,6 +95,7 @@ export class VDPAreaAccessory {
 
         }
 
+
         this.accessoryState.On = setOn;
 
         this.platform.log.debug('Set Characteristic On ->', value);
@@ -115,6 +116,7 @@ export class VDPAreaAccessory {
 
         this.accessoryState.On = true;
         this.platform.log.debug('Set Characteristic On for Area  ->', this.accessoryState.On);
+        this.room.setOn(true);
 
     }
 
@@ -125,7 +127,12 @@ export class VDPAreaAccessory {
             accessory.setOn(false);
         }
         this.accessoryState.On = false;
-        this.platform.log.debug('Set Characteristic On for Room  ->', this.accessoryState.On);
+        this.platform.log.debug('Set Characteristic On for Area  ->', this.accessoryState.On);
+
+        if(this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
+            this.room.setOn(false);
+        }
+
     }
 
     async getOn(): Promise<CharacteristicValue> {

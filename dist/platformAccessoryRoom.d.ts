@@ -7,7 +7,7 @@ export declare class VDPRoomAccessory {
     private readonly accessory;
     private name;
     private uuid;
-    private areaAccessories;
+    areaAccessories: VDPAreaAccessory[];
     private manufacturer;
     private model;
     private serialNumber;
