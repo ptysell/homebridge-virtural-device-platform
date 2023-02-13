@@ -1,0 +1,1 @@
+//# sourceMappingURL=VDPAccessoryProfile.d.ts.map

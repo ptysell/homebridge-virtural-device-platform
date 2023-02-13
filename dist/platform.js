@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExampleHomebridgePlatform = void 0;
+exports.VDPHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
 const platformAccessory_1 = require("./platformAccessory");
+const platformAccessoryArea_1 = require("./platformAccessoryArea");
+const platformAccessoryRoom_1 = require("./platformAccessoryRoom");
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
  * parse the user config and discover/register accessories with Homebridge.
  */
-class ExampleHomebridgePlatform {
+class VDPHomebridgePlatform {
     constructor(log, config, api) {
         this.log = log;
         this.config = config;
@@ -29,76 +31,136 @@ class ExampleHomebridgePlatform {
         });
     }
     /**
-     * This function is invoked when homebridge restores cached accessories from disk at startup.
-     * It should be used to setup event handlers for characteristics and update respective values.
-     */
+   * This function is invoked when homebridge restores cached accessories from disk at startup.
+   * It should be used to setup event handlers for characteristics and update respective values.
+   */
     configureAccessory(accessory) {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         // add the restored accessory to the accessories cache so we can track if it has already been registered
         this.accessories.push(accessory);
     }
     /**
-     * This is an example method showing how to register discovered accessories.
-     * Accessories must only be registered once, previously created accessories
-     * must not be registered again to prevent "duplicate UUID" errors.
-     */
+   * This is an example method showing how to register discovered accessories.
+   * Accessories must only be registered once, previously created accessories
+   * must not be registered again to prevent "duplicate UUID" errors.
+   */
     discoverDevices() {
-        setInterval(() => {
-            const TestConfig = this.config;
-            this.log.error('VDP Home:', TestConfig.home);
-        }, 10000);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.
         const exampleDevices = [
             {
-                exampleUniqueId: 'ABCD',
-                exampleDisplayName: 'Bedroom',
-            },
-            {
-                exampleUniqueId: 'EFGH',
-                exampleDisplayName: 'Kitchen',
-            },
+                roomID: 'Room01',
+                roomName: 'Room 01',
+                roomAreas: [{
+                        areaID: 'Area01',
+                        areaName: 'Room 01 Area 01',
+                        areaAccessories: [{
+                                accessoryID: 'Room01Area01Accessory01',
+                                accessoryName: 'Room 01 Area 01 Accessory 01',
+                            },
+                            {
+                                accessoryID: 'Room01Area01Accessory02',
+                                accessoryName: 'Room 01 Area 01 Accessory 02',
+                            },
+                        ],
+                    }],
+            }
         ];
+        // },
+        //     }],
+        //         exampleUniqueId: 'ABCD',
+        //         exampleDisplayName: 'Bedroom',
+        //     },
+        //     {
+        //         exampleUniqueId: 'EFGH',
+        //         exampleDisplayName: 'Kitchen',
+        //     },
+        // ];
         // loop over the discovered devices and register each one if it has not already been registered
-        for (const device of exampleDevices) {
-            // generate a unique id for the accessory this should be generated from
-            // something globally unique, but constant, for example, the device serial
-            // number or MAC address
-            const uuid = this.api.hap.uuid.generate(device.exampleUniqueId);
-            // see if an accessory with the same uuid has already been registered and restored from
-            // the cached devices we stored in the `configureAccessory` method above
-            const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
-            if (existingAccessory) {
-                // the accessory already exists
-                this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
-                // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
-                // existingAccessory.context.device = device;
-                // this.api.updatePlatformAccessories([existingAccessory]);
-                // create the accessory handler for the restored accessory
-                // this is imported from `platformAccessory.ts`
-                new platformAccessory_1.ExamplePlatformAccessory(this, existingAccessory);
-                // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
-                // remove platform accessories when no longer present
-                // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
-                // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
+        for (const room of exampleDevices) {
+            const roomUUID = this.api.hap.uuid.generate(room.roomID);
+            const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
+            let roomAccessory;
+            if (existingRoomAccessory) {
+                this.log.debug('Restoring Room Accessory form Cache:' + existingRoomAccessory.displayName);
+                roomAccessory = new platformAccessoryRoom_1.VDPRoomAccessory(this, existingRoomAccessory);
             }
             else {
-                // the accessory does not yet exist, so we need to create it
-                this.log.info('Adding new accessory:', device.exampleDisplayName);
-                // create a new accessory
-                const accessory = new this.api.platformAccessory(device.exampleDisplayName, uuid);
-                // store a copy of the device object in the `accessory.context`
-                // the `context` property can be used to store any data about the accessory you may need
-                accessory.context.device = device;
-                // create the accessory handler for the newly create accessory
-                // this is imported from `platformAccessory.ts`
-                new platformAccessory_1.ExamplePlatformAccessory(this, accessory);
-                // link the accessory to your platform
+                this.log.debug('Adding New Room Accessory:' + room.roomName);
+                const accessory = new this.api.platformAccessory(room.roomName, roomUUID);
+                roomAccessory = new platformAccessoryRoom_1.VDPRoomAccessory(this, accessory);
                 this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
             }
+            for (const area of room.roomAreas) {
+                const areaUUID = this.api.hap.uuid.generate(area.areaID);
+                const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
+                let areaAccessory;
+                if (existingAreaAccessory) {
+                    this.log.debug('Restoring Area Accessory form Cache:' + existingAreaAccessory.displayName);
+                    areaAccessory = new platformAccessoryArea_1.VDPAreaAccessory(this, existingAreaAccessory, roomAccessory);
+                }
+                else {
+                    this.log.debug('Adding New Area Accessory:' + area.areaName);
+                    const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
+                    areaAccessory = new platformAccessoryArea_1.VDPAreaAccessory(this, accessory, roomAccessory);
+                    this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
+                }
+                roomAccessory.addArea(areaAccessory);
+                for (const device of area.areaAccessories) {
+                    const accessoryUUID = this.api.hap.uuid.generate(device.accessoryID);
+                    const existingAccessory = this.accessories.find(accessory => accessory.UUID === accessoryUUID);
+                    if (existingAccessory) {
+                        this.log.debug('Restoring Accessory form Cache:' + existingAccessory.displayName);
+                        new platformAccessory_1.VDPPlatformAccessory(this, existingAccessory, platformAccessory_1.accessoryType.Accessory, roomUUID, areaUUID, accessoryUUID);
+                    }
+                    else {
+                        this.log.debug('Adding New Accessory:' + device.accessoryName);
+                        const accessory = new this.api.platformAccessory(device.accessoryName, accessoryUUID);
+                        new platformAccessory_1.VDPPlatformAccessory(this, accessory, platformAccessory_1.accessoryType.Accessory, roomUUID, areaUUID, accessoryUUID);
+                        this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
+                    }
+                }
+            }
         }
+        //     for (const device of exampleDevices) {
+        //         device.exampleRoomAreas = 0;
+        //         // generate a unique id for the accessory this should be generated from
+        //         // something globally unique, but constant, for example, the device serial
+        //         // number or MAC address
+        //         const uuid = this.api.hap.uuid.generate(device.exampleUniqueId);
+        //         // see if an accessory with the same uuid has already been registered and restored from
+        //         // the cached devices we stored in the `configureAccessory` method above
+        //         const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+        //         if (existingAccessory) {
+        //             // the accessory already exists
+        //             this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+        //             // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
+        //             // existingAccessory.context.device = device;
+        //             // this.api.updatePlatformAccessories([existingAccessory]);
+        //             // create the accessory handler for the restored accessory
+        //             // this is imported from `platformAccessory.ts`
+        //             new ExamplePlatformAccessory(this, existingAccessory);
+        //             // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
+        //             // remove platform accessories when no longer present
+        //             // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
+        //             // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
+        //         } else {
+        //             // the accessory does not yet exist, so we need to create it
+        //             this.log.info('Adding new accessory:', device.exampleDisplayName);
+        //             // create a new accessory
+        //             const accessory = new this.api.platformAccessory(device.exampleDisplayName, uuid);
+        //             // store a copy of the device object in the `accessory.context`
+        //             // the `context` property can be used to store any data about the accessory you may need
+        //             accessory.context.device = device;
+        //             // create the accessory handler for the newly create accessory
+        //             // this is imported from `platformAccessory.ts`
+        //             new ExamplePlatformAccessory(this, accessory);
+        //             // link the accessory to your platform
+        //             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        //         }
+        //     }
     }
 }
-exports.ExampleHomebridgePlatform = ExampleHomebridgePlatform;
+exports.VDPHomebridgePlatform = VDPHomebridgePlatform;
 //# sourceMappingURL=platform.js.map
