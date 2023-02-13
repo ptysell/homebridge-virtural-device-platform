@@ -14,6 +14,8 @@ export enum accessoryType {
  */
 export class VDPPlatformAccessory {
 
+    private name: string;
+
     private roomUUID: string | unknown;
     private areaUUID: string | unknown;
     private accessoryUUID: string | unknown;
@@ -41,6 +43,8 @@ export class VDPPlatformAccessory {
     accessoryUUID?: string,
     ) {
 
+        this.name = accessory.displayName;
+
         this.roomUUID = roomUUID;
         this.areaUUID = areaUUID;
         this.accessoryUUID = accessoryUUID;
@@ -53,7 +57,7 @@ export class VDPPlatformAccessory {
 
     this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
 
-    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.exampleDisplayName);
+    this.service.setCharacteristic(this.platform.Characteristic.Name, this.name);
 
     this.service.getCharacteristic(this.platform.Characteristic.On)
         .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below

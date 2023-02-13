@@ -24,6 +24,7 @@ class VDPPlatformAccessory {
         this.accessoryStates = {
             On: false,
         };
+        this.name = accessory.displayName;
         this.roomUUID = roomUUID;
         this.areaUUID = areaUUID;
         this.accessoryUUID = accessoryUUID;
@@ -33,7 +34,7 @@ class VDPPlatformAccessory {
             .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
             .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
         this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
-        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.exampleDisplayName);
+        this.service.setCharacteristic(this.platform.Characteristic.Name, this.name);
         this.service.getCharacteristic(this.platform.Characteristic.On)
             .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
