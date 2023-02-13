@@ -74,8 +74,10 @@ class VDPRoomAccessory {
     async turnOff() {
         this.platform.log.debug('Attempting to turn OFF accessory for Room ' + this.name + '........');
         for (const area of this.areaAccessories) {
-            this.platform.log.debug('Attempting to turn ON accessory for AREA ' + area.name + '........');
-            area.setOn(false);
+            if (area.accessoryState) {
+                this.platform.log.debug('Attempting to turn ON accessory for AREA ' + area.name + '........');
+                area.setOn(false);
+            }
         }
         this.accessoryState.On = false;
         this.platform.log.debug('Set Characteristic On for Room  ->', this.accessoryState.On);

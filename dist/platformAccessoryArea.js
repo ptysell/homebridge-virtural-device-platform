@@ -82,7 +82,7 @@ class VDPAreaAccessory {
         this.accessoryState.On = false;
         this.platform.log.debug('Set Characteristic On for Area  ->', this.accessoryState.On);
         if (this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
-            this.room.setOn(false);
+            await this.room.turnOff();
         }
     }
     async getOn() {
