@@ -67,10 +67,10 @@ export class VDPRoomAccessory {
         const setOn = value as boolean;
         this.platform.log.debug('Attempting to set ' + this.name + ' from ', this.accessoryState.On + ' to ' + setOn);
         if (setOn){
-            this.turnOn();
+            await this.turnOn();
 
         } else {
-            this.turnOff();
+            await this.turnOff();
         }
 
         this.accessoryState.On = setOn;

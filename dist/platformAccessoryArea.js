@@ -38,10 +38,10 @@ class VDPAreaAccessory {
         const setOn = value;
         this.platform.log.debug('Attempting to set ' + this.name + ' from ', this.accessoryState.On + ' to ' + setOn);
         if (setOn) {
-            this.turnOn();
+            await this.turnOn();
         }
         else {
-            this.turnOff();
+            await this.turnOff();
         }
         //this.accessoryState.On = setOn;
         //this.platform.log.debug('Set Characteristic On ->', value);
@@ -60,7 +60,7 @@ class VDPAreaAccessory {
         this.platform.log.warn('Set Characteristic On for AREA ' + this.name + '  ->', this.accessoryState.On);
         if (this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
             this.platform.log.warn('Set ROOM ' + this.room.name + ' ON');
-            this.room.setOn(true);
+            await this.room.setOn(true);
         }
     }
     async turnOff() {
@@ -77,7 +77,7 @@ class VDPAreaAccessory {
             this.platform.log.warn('Parent ROOM ' + this.room.name + ' is ON attempting to turn OFF.......');
             if (this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
                 this.platform.log.warn('All AREA in ROOM are OFF, set ROOM ' + this.room.name + ' OFF');
-                this.room.setOn(false);
+                await this.room.setOn(false);
             }
         }
     }
