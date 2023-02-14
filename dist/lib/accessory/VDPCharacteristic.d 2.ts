@@ -1,0 +1,1 @@
+//# sourceMappingURL=VDPCharacteristic.d.ts.map
