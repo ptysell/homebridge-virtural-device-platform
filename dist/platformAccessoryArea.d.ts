@@ -9,7 +9,7 @@ export declare class VDPAreaAccessory {
     private readonly room;
     name: string;
     private uuid;
-    private platformAccessories;
+    platformAccessories: VDPPlatformAccessory[];
     private manufacturer;
     private model;
     private serialNumber;

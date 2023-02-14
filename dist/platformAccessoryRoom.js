@@ -35,56 +35,43 @@ class VDPRoomAccessory {
     }
     async setOn(value) {
         const setOn = value;
-        let setOnChild = true;
         this.platform.log.debug('Attempting to set ' + this.name + ' from ', this.accessoryState.On + ' to ' + setOn);
         if (setOn) {
-            await this.turnOn();
+            this.turnOn();
         }
         else {
-            await this.turnOff();
-        }
-        for (const area of this.areaAccessories) {
-            if (await area.getOn()) {
-                this.platform.log.debug('Area ' + area.name + ' is on');
-                setOnChild = false;
-            }
-        }
-        if (setOnChild) {
-            this.platform.log.debug('All Areas are off, turing on.......');
-            for (const area of this.areaAccessories) {
-                area.setOn(setOn);
-            }
+            this.turnOff();
         }
         this.accessoryState.On = setOn;
         this.platform.log.debug('Set Characteristic On ->', value);
     }
     async turnOn() {
-        this.platform.log.debug('Attempting to turn ON accessory for Room ' + this.name + '........');
+        this.platform.log.debug('Attempting to turn ON accessory for ROOM ' + this.name + '........');
         this.platform.log.debug('Checking Area Status for ' + this.areaAccessories.length + ' areas......');
         if (this.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
-            this.platform.log.debug('All Areas are OFF, turning ON......');
+            this.platform.log.debug('All AREAS are OFF, turning all AREAS ON......');
             for (const area of this.areaAccessories) {
                 this.platform.log.debug('Attempting to turn ON accessory for AREA ' + area.name + '........');
-                area.setOn(true);
+                await area.setOn(true);
             }
         }
-        this.accessoryState.On = true;
-        this.platform.log.debug('Set Characteristic On for Room  ->', this.accessoryState.On);
+        // this.accessoryState.On = true;
+        //this.platform.log.warn('Set Characteristic On for ROOM ' + this.name + '  ->', this.accessoryState.On);
     }
     async turnOff() {
-        this.platform.log.debug('Attempting to turn OFF accessory for Room ' + this.name + '........');
+        this.platform.log.debug('Attempting to turn OFF accessory for ROOM ' + this.name + '........');
         for (const area of this.areaAccessories) {
             if (area.accessoryState) {
-                this.platform.log.debug('Attempting to turn ON accessory for AREA ' + area.name + '........');
-                area.setOn(false);
+                this.platform.log.debug('Attempting to turn OFF accessory for AREA ' + area.name + '........');
+                await area.setOn(false);
             }
         }
         this.accessoryState.On = false;
-        this.platform.log.debug('Set Characteristic On for Room  ->', this.accessoryState.On);
+        this.platform.log.warn('Set Characteristic On for ROOM ' + this.name + '  ->', this.accessoryState.On);
     }
     async getOn() {
         const isOn = this.accessoryState.On;
-        this.platform.log.debug('Get Characteristic On ->', isOn);
+        this.platform.log.warn('Get Characteristic On for ROOM ' + this.name + '  ->', isOn);
         return isOn;
     }
 }

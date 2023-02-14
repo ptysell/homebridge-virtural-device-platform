@@ -27,7 +27,7 @@ export class VDPPlatformAccessory {
    * These are just used to create a working example
    * You should implement your own code to track the state of your accessory
    */
-    public accessoryStates = {
+    public accessoryState = {
         On: false,
     };
 
@@ -67,16 +67,16 @@ export class VDPPlatformAccessory {
     async setOn(value: CharacteristicValue) {
 
         //Accessory Set Value
-        const setOn = value as boolean;
+        //const setOn = value as boolean;
 
-        this.accessoryStates.On = value as boolean;
+        this.accessoryState.On = value as boolean;
 
         this.platform.log.debug('Set Characteristic On ->', value);
     }
 
     async getOn(): Promise<CharacteristicValue> {
     // implement your own code to check if the device is on
-        const isOn = this.accessoryStates.On;
+        const isOn = this.accessoryState.On;
 
         this.platform.log.debug('Get Characteristic On ->', isOn);
 

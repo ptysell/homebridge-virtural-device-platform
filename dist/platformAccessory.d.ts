@@ -24,7 +24,7 @@ export declare class VDPPlatformAccessory {
    * These are just used to create a working example
    * You should implement your own code to track the state of your accessory
    */
-    accessoryStates: {
+    accessoryState: {
         On: boolean;
     };
     constructor(platform: VDPHomebridgePlatform, accessory: PlatformAccessory, accessoryType: accessoryType, roomUUID?: string, areaUUID?: string, accessoryUUID?: string);

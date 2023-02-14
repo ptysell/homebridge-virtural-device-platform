@@ -5,7 +5,7 @@ export declare const DEVICE_MODEL = "Room Accessory Switch";
 export declare class VDPRoomAccessory {
     private readonly platform;
     private readonly accessory;
-    private name;
+    name: string;
     private uuid;
     areaAccessories: VDPAreaAccessory[];
     private manufacturer;

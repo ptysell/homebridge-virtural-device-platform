@@ -21,7 +21,7 @@ class VDPPlatformAccessory {
        * These are just used to create a working example
        * You should implement your own code to track the state of your accessory
        */
-        this.accessoryStates = {
+        this.accessoryState = {
             On: false,
         };
         this.name = accessory.displayName;
@@ -41,13 +41,13 @@ class VDPPlatformAccessory {
     }
     async setOn(value) {
         //Accessory Set Value
-        const setOn = value;
-        this.accessoryStates.On = value;
+        //const setOn = value as boolean;
+        this.accessoryState.On = value;
         this.platform.log.debug('Set Characteristic On ->', value);
     }
     async getOn() {
         // implement your own code to check if the device is on
-        const isOn = this.accessoryStates.On;
+        const isOn = this.accessoryState.On;
         this.platform.log.debug('Get Characteristic On ->', isOn);
         // if you need to return an error to show the device as "Not Responding" in the Home app:
         // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
