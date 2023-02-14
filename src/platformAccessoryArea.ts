@@ -114,9 +114,12 @@ export class VDPAreaAccessory {
         this.accessoryState.On = false;
         this.platform.log.warn('Set Characteristic On for AREA ' + this.name + '  ->', this.accessoryState.On);
 
-        if(this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
-            this.platform.log.warn('All AREA in ROOM are OFF, set ROOM ' + this.room.name + ' OFF');
-            this.room.setOn(false);
+        if (this.room.accessoryState) {
+            this.platform.log.warn('Parent ROOM ' + this.room.name + ' is ON attempting to turn OFF.......');
+            if(this.room.areaAccessories.filter(searchObj => searchObj.accessoryState.On === true).length === 0) {
+                this.platform.log.warn('All AREA in ROOM are OFF, set ROOM ' + this.room.name + ' OFF');
+                this.room.setOn(false);
+            }
         }
 
     }
