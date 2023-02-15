@@ -53,6 +53,7 @@ export class VDPAccessoryOutlet extends VDPAccessory {
     }
 
     public update(observable: VDPObservable): void {
+        this.HBPlatform.log.error('VDPAccessoryOutlet Reacted To An Event');
         if (observable instanceof VDPAccessory && observable.state === true) {
             //console.log('ConcreteObserverA: Reacted to the event.');
         }

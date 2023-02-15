@@ -29,6 +29,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.notify();
     }
     update(observable) {
+        this.HBPlatform.log.error('VDPAccessoryOutlet Reacted To An Event');
         if (observable instanceof VDPAccessory_1.VDPAccessory && observable.state === true) {
             //console.log('ConcreteObserverA: Reacted to the event.');
         }

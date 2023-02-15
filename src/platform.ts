@@ -45,6 +45,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
     public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory) {
+            this.log.warn('HBPlatform reacted to an event');
             this.log.warn('Observable: ' + observable.name + ' changed to ' + observable.state);
         }
     }
@@ -108,6 +109,42 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
                     },
                     ],
                 }],
+            }, {
+                roomID: 'Room02',
+                roomName: 'Room 02',
+                roomAreas: [{
+                    areaID: 'Room02Area01',
+                    areaName: 'Room 02 Area 01',
+                    areaAccessories: [{
+                        accessoryID: 'Room02Area01Accessory01',
+                        accessoryName: 'Room 02 Area 01 Accessory 01',
+                    },
+                    {
+                        accessoryID: 'Room02Area01Accessory02',
+                        accessoryName: 'Room 02 Area 01 Accessory 02',
+                    },
+                    {
+                        accessoryID: 'Room02Area01Accessory03',
+                        accessoryName: 'Room 02 Area 01 Accessory 03',
+                    },
+                    ],
+                }, {
+                    areaID: 'Room02Area02',
+                    areaName: 'Room 02 Area 02',
+                    areaAccessories: [{
+                        accessoryID: 'Room02Area02Accessory01',
+                        accessoryName: 'Room 02 Area 02 Accessory 01',
+                    },
+                    {
+                        accessoryID: 'Room02Area02Accessory02',
+                        accessoryName: 'Room 02 Area 02 Accessory 02',
+                    },
+                    {
+                        accessoryID: 'Room02Area01Accessory03',
+                        accessoryName: 'Room 02 Area 02 Accessory 03',
+                    },
+                    ],
+                }],
             }];
 
         // },
@@ -131,16 +168,38 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             let roomAccessory: VDPAccessoryOutlet;
 
             if (existingRoomAccessory) {
-                this.log.debug('Restoring Room Accessory form Cache:' + existingRoomAccessory.displayName);
+                this.log.debug('Restoring ROOM Accessory form Cache:' + existingRoomAccessory.displayName);
                 roomAccessory = new VDPAccessoryOutlet(this, existingRoomAccessory);
             } else {
-                this.log.debug('Adding New Room Accessory:' + room.roomName);
+                this.log.debug('Adding New ROOM Accessory:' + room.roomName);
                 const accessory = new this.api.platformAccessory(room.roomName, roomUUID);
                 roomAccessory = new VDPAccessoryOutlet(this, accessory);
                 this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
             }
 
             roomAccessory.attach(this);
+
+            for (const area of room.roomAreas) {
+
+                const areaUUID = this.api.hap.uuid.generate(area.areaID);
+                const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
+                let areaAccessory: VDPAccessoryOutlet;
+
+                if (existingAreaAccessory) {
+                    this.log.debug('Restoring AREA Accessory form Cache:' + existingAreaAccessory.displayName);
+                    areaAccessory = new VDPAccessoryOutlet(this, existingAreaAccessory);
+                } else {
+                    this.log.debug('Adding New AREA Accessory:' + area.areaName);
+                    const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
+                    areaAccessory = new VDPAccessoryOutlet(this, accessory);
+                    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+    
+                }
+
+                areaAccessory.attach(this);
+                areaAccessory.attach(roomAccessory);
+
+            }
 
             //     for (const area of room.roomAreas) {
 

@@ -7,8 +7,8 @@ export interface IVDPAccessoryState {
 export interface IVDPAccessoryCharacteristics {
 }
 export declare abstract class VDPAccessory implements VDPObserver, VDPObservable {
-    private readonly HBPlatform;
-    private readonly HBPlatformAccessory;
+    protected readonly HBPlatform: VDPHomebridgePlatform;
+    protected readonly HBPlatformAccessory: PlatformAccessory;
     protected observers: VDPObserver[];
     protected abstract DEVICE_MODEL: string;
     protected _name: string;

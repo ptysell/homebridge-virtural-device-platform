@@ -42,8 +42,8 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
 
     constructor(
-        private readonly HBPlatform: VDPHomebridgePlatform,
-        private readonly HBPlatformAccessory: PlatformAccessory,
+        protected readonly HBPlatform: VDPHomebridgePlatform,
+        protected readonly HBPlatformAccessory: PlatformAccessory,
     ) {
 
         this._name = HBPlatformAccessory.displayName;
