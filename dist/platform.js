@@ -4,6 +4,7 @@ exports.VDPHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
 const VDPAccessoryOutlet_1 = require("./lib/accessories/VDPAccessoryOutlet");
 const VDPAccessory_1 = require("./lib/accessory/VDPAccessory");
+const observer_1 = require("./lib/vdphomekit/system/observer");
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -117,6 +118,7 @@ class VDPHomebridgePlatform {
                 this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
             }
             roomAccessory.attach(this);
+            roomAccessory._observers.subscribe(new observer_1.Observer('VDPAccessory setOn'));
             //     for (const area of room.roomAreas) {
             //         const areaUUID = this.api.hap.uuid.generate(area.areaID);
             //         const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);

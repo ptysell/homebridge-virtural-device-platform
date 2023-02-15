@@ -7,7 +7,7 @@ import { VDPAreaAccessory } from './platformAccessoryArea';
 import { VDPRoomAccessory } from './platformAccessoryRoom';
 import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
 import { VDPAccessory } from './lib/accessory/VDPAccessory';
-import { VDPObserver } from './lib/vdphomekit/system/observer';
+import { Observer, VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
 
 
@@ -141,6 +141,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             }
 
             roomAccessory.attach(this);
+            roomAccessory._observers.subscribe(new Observer('VDPAccessory setOn' ));
 
             //     for (const area of room.roomAreas) {
 

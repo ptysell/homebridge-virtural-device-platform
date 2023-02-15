@@ -13,7 +13,7 @@ export interface IVDPAccessoryCharacteristics {}
 export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
     protected observers: VDPObserver[] = [];
-    protected _observers: Observers = new Observers();
+    public _observers: Observers = new Observers();
 
 
     protected DEVICE_MODEL = '';
@@ -65,7 +65,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
         this.initialize();
 
-        this._observers.subscribe(new Observer(`${this.DEVICE_MODEL} setOn`));
+        this._observers.subscribe(new Observer(`VDPAccessory setOn`));
 
     }
 

@@ -23,7 +23,7 @@ class VDPAccessory {
         this._model = this.DEVICE_MODEL;
         this._serialNumber = this._hbPlatformAccessory.UUID;
         this.initialize();
-        this._observers.subscribe(new observer_1.Observer(`${this.DEVICE_MODEL} setOn`));
+        this._observers.subscribe(new observer_1.Observer(`VDPAccessory setOn`));
     }
     get name() {
         return this._name;

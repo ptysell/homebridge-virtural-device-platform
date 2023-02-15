@@ -10,7 +10,7 @@ export declare abstract class VDPAccessory implements VDPObserver, VDPObservable
     private readonly HBPlatform;
     private readonly HBPlatformAccessory;
     protected observers: VDPObserver[];
-    protected _observers: Observers;
+    _observers: Observers;
     protected DEVICE_MODEL: string;
     protected _name: string;
     get name(): string;
