@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPAccessoryOutlet = void 0;
 const VDPAccessory_1 = require("../accessory/VDPAccessory");
 class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
-    constructor() {
-        super(...arguments);
+    constructor(HBPlatform, HBPlatformAccessory) {
+        super(HBPlatform, HBPlatformAccessory);
+        this.HBPlatform = HBPlatform;
+        this.HBPlatformAccessory = HBPlatformAccessory;
         this.DEVICE_MODEL = 'VDP Outlet Accessory';
         this.observers = [];
+        // this.DEVICE_MODEL = ''
     }
     initialize() {
         this._model = this.DEVICE_MODEL;

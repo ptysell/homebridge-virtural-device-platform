@@ -1,4 +1,5 @@
-import { CharacteristicValue } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { VDPHomebridgePlatform } from '../../platform';
 import { IVDPAccessoryCharacteristics, IVDPAccessoryState, VDPAccessory } from '../accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
 import { VDPObserver } from '../vdphomekit/system/observer';
@@ -14,12 +15,20 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
 
 export class VDPAccessoryOutlet extends VDPAccessory {
 
-    protected DEVICE_MODEL = 'VDP Outlet Accessory';
+    protected override DEVICE_MODEL = 'VDP Outlet Accessory';
 
     protected observers: VDPObserver[] = [];
 
     protected _accessoryCharacteristics!: IVDPAccessoryCharacteristicsOutlet;
     protected _accessoryState!: IVDPAccessoryStateOutlet;
+
+    constructor(
+        protected readonly HBPlatform: VDPHomebridgePlatform,
+        protected readonly HBPlatformAccessory: PlatformAccessory,
+    ) {
+        super(HBPlatform, HBPlatformAccessory);
+       // this.DEVICE_MODEL = ''
+    }
 
     protected initialize(): void {
 
