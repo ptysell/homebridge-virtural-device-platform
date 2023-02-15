@@ -4,7 +4,7 @@ import { VDPHomebridgePlatform } from '../../platform';
 //import { VDPRoom } from '../home/VDPRoom';
 import { DEVICE_MANUFACTURER } from '../../settings';
 import { VDPObservable } from '../vdphomekit/system/observable';
-import { Observer, Observers, VDPObserver } from '../vdphomekit/system/observer';
+import { VDPObserver } from '../vdphomekit/system/observer';
 
 
 
@@ -13,10 +13,8 @@ export interface IVDPAccessoryCharacteristics {}
 export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
     protected observers: VDPObserver[] = [];
-    public _observers: Observers = new Observers();
 
-
-    protected DEVICE_MODEL = '';
+    protected abstract DEVICE_MODEL: string;
 
     protected _name: string;
     get name():string {
@@ -60,12 +58,11 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         //this._hbCharacteristic = this._hbServices[0].characteristics.
 
         this._manufacturer = DEVICE_MANUFACTURER;
-        this._model = this.DEVICE_MODEL;
+        //this._model = this.DEVICE_MODEL;
+        this._model = "N/A";
         this._serialNumber = this._hbPlatformAccessory.UUID;
 
         this.initialize();
-
-        this._observers.subscribe(new Observer(`VDPAccessory setOn`));
 
     }
 

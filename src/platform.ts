@@ -141,7 +141,6 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             }
 
             roomAccessory.attach(this);
-            roomAccessory._observers.subscribe(new Observer('VDPAccessory setOn' ));
 
             //     for (const area of room.roomAreas) {
 

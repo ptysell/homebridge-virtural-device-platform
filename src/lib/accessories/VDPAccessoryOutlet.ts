@@ -1,7 +1,7 @@
 import { CharacteristicValue } from 'homebridge';
 import { IVDPAccessoryCharacteristics, IVDPAccessoryState, VDPAccessory } from '../accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
-import { Observers, VDPObserver } from '../vdphomekit/system/observer';
+import { VDPObserver } from '../vdphomekit/system/observer';
 
 export interface IVDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
     On: boolean;
@@ -14,9 +14,9 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
 
 export class VDPAccessoryOutlet extends VDPAccessory {
 
-    protected observers: VDPObserver[] = [];
+    protected DEVICE_MODEL: string = "VDP Outlet Accessory";
 
-    protected override DEVICE_MODEL = 'VDP Outlet Accessory';
+    protected observers: VDPObserver[] = [];
 
     protected _accessoryCharacteristics!: IVDPAccessoryCharacteristicsOutlet;
     protected _accessoryState!: IVDPAccessoryStateOutlet;
@@ -49,7 +49,6 @@ export class VDPAccessoryOutlet extends VDPAccessory {
         this._accessoryCharacteristics.On = value as boolean;
 
         this.notify();
-        this._observers.notify('Accessory ' + this.name + 'State Changed To: ', this._accessoryState.On)
 
     }
 

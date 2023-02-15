@@ -1,7 +1,7 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
 import { VDPObservable } from '../vdphomekit/system/observable';
-import { Observers, VDPObserver } from '../vdphomekit/system/observer';
+import { VDPObserver } from '../vdphomekit/system/observer';
 export interface IVDPAccessoryState {
 }
 export interface IVDPAccessoryCharacteristics {
@@ -10,8 +10,7 @@ export declare abstract class VDPAccessory implements VDPObserver, VDPObservable
     private readonly HBPlatform;
     private readonly HBPlatformAccessory;
     protected observers: VDPObserver[];
-    _observers: Observers;
-    protected DEVICE_MODEL: string;
+    protected abstract DEVICE_MODEL: string;
     protected _name: string;
     get name(): string;
     protected _uniqueIdentifier: string;

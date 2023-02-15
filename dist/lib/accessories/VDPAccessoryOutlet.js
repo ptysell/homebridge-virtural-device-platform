@@ -5,8 +5,8 @@ const VDPAccessory_1 = require("../accessory/VDPAccessory");
 class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     constructor() {
         super(...arguments);
+        this.DEVICE_MODEL = "VDP Outlet Accessory";
         this.observers = [];
-        this.DEVICE_MODEL = 'VDP Outlet Accessory';
     }
     setServices() {
         this._accessoryCharacteristics = { On: false, Name: this._name };
@@ -27,7 +27,6 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.state = value;
         this._accessoryCharacteristics.On = value;
         this.notify();
-        this._observers.notify('Accessory ' + this.name + 'State Changed To: ', this._accessoryState.On);
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory && observable.state === true) {

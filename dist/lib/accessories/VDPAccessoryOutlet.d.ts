@@ -10,8 +10,8 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
     On: boolean;
 }
 export declare class VDPAccessoryOutlet extends VDPAccessory {
-    protected observers: VDPObserver[];
     protected DEVICE_MODEL: string;
+    protected observers: VDPObserver[];
     protected _accessoryCharacteristics: IVDPAccessoryCharacteristicsOutlet;
     protected _accessoryState: IVDPAccessoryStateOutlet;
     protected setServices(): void;
