@@ -27,14 +27,13 @@ export class VDPAccessoryOutlet extends VDPAccessory {
         protected readonly HBPlatformAccessory: PlatformAccessory,
     ) {
         super(HBPlatform, HBPlatformAccessory);
-        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL + ' | ' + this._model);
-       // this.DEVICE_MODEL = ''
+        
     }
 
     protected initialize(): void {
 
         this._model = this.DEVICE_MODEL;
-        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL + ' | ' + this._model);
+        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL);
 
         this.setAccessoryInformation();
         this.setServices();
