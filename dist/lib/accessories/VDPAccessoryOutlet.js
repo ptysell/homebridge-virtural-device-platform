@@ -5,7 +5,7 @@ const VDPAccessory_1 = require("../accessory/VDPAccessory");
 class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     constructor() {
         super(...arguments);
-        this.DEVICE_MODEL = "VDP Outlet Accessory";
+        this.DEVICE_MODEL = 'VDP Outlet Accessory';
         this.observers = [];
     }
     initialize() {

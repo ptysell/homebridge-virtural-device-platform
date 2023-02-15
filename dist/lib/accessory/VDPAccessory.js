@@ -8,6 +8,7 @@ class VDPAccessory {
         this.HBPlatform = HBPlatform;
         this.HBPlatformAccessory = HBPlatformAccessory;
         this.observers = [];
+        this.DEVICE_MODEL = 'N/A';
         this.state = false;
         this._name = HBPlatformAccessory.displayName;
         this._uniqueIdentifier = HBPlatformAccessory.UUID;
@@ -17,8 +18,8 @@ class VDPAccessory {
         //this._hbPlatformAccessoryService = this.HBPlatformAccessory.services;
         //this._hbCharacteristic = this._hbServices[0].characteristics.
         this._manufacturer = settings_1.DEVICE_MANUFACTURER;
-        //this._model = this.DEVICE_MODEL;
-        this._model = "N/A";
+        this._model = this.DEVICE_MODEL;
+        // this._model = "N/A";
         this._serialNumber = this._hbPlatformAccessory.UUID;
         this.initialize();
     }
