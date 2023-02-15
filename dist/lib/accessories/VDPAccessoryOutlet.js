@@ -9,6 +9,8 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.observers = [];
     }
     initialize() {
+        this._model = this.DEVICE_MODEL;
+        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL + ' | ' + this._model);
         this.setAccessoryInformation();
         this.setServices();
         this.setCharacteristics();
@@ -16,7 +18,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     setAccessoryInformation() {
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
             .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.DEVICE_MODEL)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this._model)
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
     }
     setServices() {
