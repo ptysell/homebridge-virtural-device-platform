@@ -3,16 +3,18 @@ import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
 //import { VDPRoom } from '../home/VDPRoom';
 import { DEVICE_MANUFACTURER } from '../../settings';
-import { IObservable } from '../observer/IObservable';
-import { IObserver } from '../observer/IObserver';
+import { VDPObservable } from '../vdphomekit/system/observable';
+import { Observer, Observers, VDPObserver } from '../vdphomekit/system/observer';
 
 
 
 export interface IVDPAccessoryState{}
 export interface IVDPAccessoryCharacteristics {}
-export abstract class VDPAccessory implements IObserver, IObservable {
+export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
-    protected observers: IObserver[] = [];
+    protected observers: VDPObserver[] = [];
+    protected _observers: Observers = new Observers();
+
 
     protected DEVICE_MODEL = '';
 
@@ -63,6 +65,7 @@ export abstract class VDPAccessory implements IObserver, IObservable {
 
         this.initialize();
 
+        this._observers.subscribe(new Observer(`${this.DEVICE_MODEL} setOn`));
 
     }
 
@@ -93,7 +96,7 @@ export abstract class VDPAccessory implements IObserver, IObservable {
     abstract getOn(): Promise<CharacteristicValue>;
     abstract setOn(value: CharacteristicValue): void;
 
-    public attach (observer: IObserver): void {
+    public attach (observer: VDPObserver): void {
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
@@ -101,7 +104,7 @@ export abstract class VDPAccessory implements IObserver, IObservable {
         this.observers.push(observer);
     }
 
-    public detach (observer: IObserver): void {
+    public detach (observer: VDPObserver): void {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return;
@@ -116,6 +119,6 @@ export abstract class VDPAccessory implements IObserver, IObservable {
         }
     }
 
-    abstract update(observable: IObservable): void;
+    abstract update(observable: VDPObservable): void;
 
 }

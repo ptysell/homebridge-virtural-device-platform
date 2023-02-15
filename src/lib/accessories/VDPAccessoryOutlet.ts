@@ -1,7 +1,7 @@
 import { CharacteristicValue } from 'homebridge';
 import { IVDPAccessoryCharacteristics, IVDPAccessoryState, VDPAccessory } from '../accessory/VDPAccessory';
-import { IObservable } from '../observer/IObservable';
-import { IObserver } from '../observer/IObserver';
+import { VDPObservable } from '../vdphomekit/system/observable';
+import { Observers, VDPObserver } from '../vdphomekit/system/observer';
 
 export interface IVDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
     On: boolean;
@@ -14,7 +14,7 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
 
 export class VDPAccessoryOutlet extends VDPAccessory {
 
-    protected observers: IObserver[] = [];
+    protected observers: VDPObserver[] = [];
 
     protected override DEVICE_MODEL = 'VDP Outlet Accessory';
 
@@ -49,9 +49,11 @@ export class VDPAccessoryOutlet extends VDPAccessory {
         this._accessoryCharacteristics.On = value as boolean;
 
         this.notify();
+        this._observers.notify('Accessory ' + this.name + 'State Changed To: ', this._accessoryState.On)
+
     }
 
-    public update(observable: IObservable): void {
+    public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory && observable.state === true) {
             //console.log('ConcreteObserverA: Reacted to the event.');
         }

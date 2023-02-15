@@ -6,9 +6,9 @@ import { Z_UNKNOWN } from 'zlib';
 import { VDPAreaAccessory } from './platformAccessoryArea';
 import { VDPRoomAccessory } from './platformAccessoryRoom';
 import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
-import { IObserver } from './lib/observer/IObserver';
-import { IObservable } from './lib/observer/IObservable';
 import { VDPAccessory } from './lib/accessory/VDPAccessory';
+import { VDPObserver } from './lib/vdphomekit/system/observer';
+import { VDPObservable } from './lib/vdphomekit/system/observable';
 
 
 /**
@@ -16,7 +16,7 @@ import { VDPAccessory } from './lib/accessory/VDPAccessory';
  * This class is the main constructor for your plugin, this is where you should
  * parse the user config and discover/register accessories with Homebridge.
  */
-export class VDPHomebridgePlatform implements DynamicPlatformPlugin, IObserver {
+export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver {
 
     public readonly Service: typeof Service = this.api.hap.Service;
     public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
@@ -43,7 +43,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, IObserver {
         });
     }
 
-    public update(observable: IObservable): void {
+    public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory) {
             this.log.warn('Observable: ' + observable.name + ' changed to ' + observable.state);
         }

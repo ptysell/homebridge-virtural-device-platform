@@ -1,15 +1,16 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
-import { IObservable } from '../observer/IObservable';
-import { IObserver } from '../observer/IObserver';
+import { VDPObservable } from '../vdphomekit/system/observable';
+import { Observers, VDPObserver } from '../vdphomekit/system/observer';
 export interface IVDPAccessoryState {
 }
 export interface IVDPAccessoryCharacteristics {
 }
-export declare abstract class VDPAccessory implements IObserver, IObservable {
+export declare abstract class VDPAccessory implements VDPObserver, VDPObservable {
     private readonly HBPlatform;
     private readonly HBPlatformAccessory;
-    protected observers: IObserver[];
+    protected observers: VDPObserver[];
+    protected _observers: Observers;
     protected DEVICE_MODEL: string;
     protected _name: string;
     get name(): string;
@@ -31,9 +32,9 @@ export declare abstract class VDPAccessory implements IObserver, IObservable {
     protected abstract setCharacteristics(): void;
     abstract getOn(): Promise<CharacteristicValue>;
     abstract setOn(value: CharacteristicValue): void;
-    attach(observer: IObserver): void;
-    detach(observer: IObserver): void;
+    attach(observer: VDPObserver): void;
+    detach(observer: VDPObserver): void;
     notify(): void;
-    abstract update(observable: IObservable): void;
+    abstract update(observable: VDPObservable): void;
 }
 //# sourceMappingURL=VDPAccessory.d.ts.map

@@ -27,6 +27,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.state = value;
         this._accessoryCharacteristics.On = value;
         this.notify();
+        this._observers.notify('Accessory ' + this.name + 'State Changed To: ', this._accessoryState.On);
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory && observable.state === true) {

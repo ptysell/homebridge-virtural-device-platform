@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPAccessory = void 0;
 //import { VDPRoom } from '../home/VDPRoom';
 const settings_1 = require("../../settings");
+const observer_1 = require("../vdphomekit/system/observer");
 class VDPAccessory {
     constructor(HBPlatform, HBPlatformAccessory) {
         this.HBPlatform = HBPlatform;
         this.HBPlatformAccessory = HBPlatformAccessory;
         this.observers = [];
+        this._observers = new observer_1.Observers();
         this.DEVICE_MODEL = '';
         this.state = false;
         this._name = HBPlatformAccessory.displayName;
@@ -21,6 +23,7 @@ class VDPAccessory {
         this._model = this.DEVICE_MODEL;
         this._serialNumber = this._hbPlatformAccessory.UUID;
         this.initialize();
+        this._observers.subscribe(new observer_1.Observer(`${this.DEVICE_MODEL} setOn`));
     }
     get name() {
         return this._name;

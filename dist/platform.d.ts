@@ -1,12 +1,12 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
-import { IObserver } from './lib/observer/IObserver';
-import { IObservable } from './lib/observer/IObservable';
+import { VDPObserver } from './lib/vdphomekit/system/observer';
+import { VDPObservable } from './lib/vdphomekit/system/observable';
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
  * parse the user config and discover/register accessories with Homebridge.
  */
-export declare class VDPHomebridgePlatform implements DynamicPlatformPlugin, IObserver {
+export declare class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver {
     readonly log: Logger;
     readonly config: PlatformConfig;
     readonly api: API;
@@ -14,7 +14,7 @@ export declare class VDPHomebridgePlatform implements DynamicPlatformPlugin, IOb
     readonly Characteristic: typeof Characteristic;
     readonly accessories: PlatformAccessory[];
     constructor(log: Logger, config: PlatformConfig, api: API);
-    update(observable: IObservable): void;
+    update(observable: VDPObservable): void;
     /**
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
