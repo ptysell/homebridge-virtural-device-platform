@@ -16,7 +16,7 @@ export class VDPAccessoryOutlet extends VDPAccessory {
 
     protected observers: IObserver[] = [];
 
-    protected DEVICE_MODEL = 'VDP Outlet Accessory';
+    protected override DEVICE_MODEL = 'VDP Outlet Accessory';
 
     protected _accessoryCharacteristics!: IVDPAccessoryCharacteristicsOutlet;
     protected _accessoryState!: IVDPAccessoryStateOutlet;

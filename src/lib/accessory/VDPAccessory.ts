@@ -82,7 +82,7 @@ export abstract class VDPAccessory implements IObserver, IObservable {
 
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)!
             .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this._model)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.DEVICE_MODEL)
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
 
     }
