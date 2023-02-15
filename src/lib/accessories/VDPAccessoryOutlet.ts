@@ -15,7 +15,7 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
 
 export class VDPAccessoryOutlet extends VDPAccessory {
 
-    protected override DEVICE_MODEL = 'VDP Outlet Accessory';
+    protected  DEVICE_MODEL: string = 'VDP Outlet Accessory';
 
     protected observers: VDPObserver[] = [];
 
@@ -27,6 +27,7 @@ export class VDPAccessoryOutlet extends VDPAccessory {
         protected readonly HBPlatformAccessory: PlatformAccessory,
     ) {
         super(HBPlatform, HBPlatformAccessory);
+        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL + ' | ' + this._model);
        // this.DEVICE_MODEL = ''
     }
 

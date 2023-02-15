@@ -14,7 +14,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
     protected observers: VDPObserver[] = [];
 
-    protected DEVICE_MODEL = 'N/A';
+    protected abstract DEVICE_MODEL: string;
 
     protected _name: string;
     get name():string {
@@ -58,8 +58,8 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         //this._hbCharacteristic = this._hbServices[0].characteristics.
 
         this._manufacturer = DEVICE_MANUFACTURER;
-        this._model = this.DEVICE_MODEL;
-       // this._model = "N/A";
+        //this._model = this.DEVICE_MODEL;
+        this._model = "N/A";
         this._serialNumber = this._hbPlatformAccessory.UUID;
 
         this.initialize();

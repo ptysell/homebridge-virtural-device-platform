@@ -9,6 +9,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.HBPlatformAccessory = HBPlatformAccessory;
         this.DEVICE_MODEL = 'VDP Outlet Accessory';
         this.observers = [];
+        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL + ' | ' + this._model);
         // this.DEVICE_MODEL = ''
     }
     initialize() {

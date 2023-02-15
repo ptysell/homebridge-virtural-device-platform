@@ -2,12 +2,11 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { accessoryType, VDPPlatformAccessory } from './platformAccessory';
-import { Z_UNKNOWN } from 'zlib';
 import { VDPAreaAccessory } from './platformAccessoryArea';
 import { VDPRoomAccessory } from './platformAccessoryRoom';
 import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
 import { VDPAccessory } from './lib/accessory/VDPAccessory';
-import { Observer, VDPObserver } from './lib/vdphomekit/system/observer';
+import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
 
 
