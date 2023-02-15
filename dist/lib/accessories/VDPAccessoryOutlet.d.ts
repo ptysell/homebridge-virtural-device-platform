@@ -14,6 +14,8 @@ export declare class VDPAccessoryOutlet extends VDPAccessory {
     protected observers: VDPObserver[];
     protected _accessoryCharacteristics: IVDPAccessoryCharacteristicsOutlet;
     protected _accessoryState: IVDPAccessoryStateOutlet;
+    protected initialize(): void;
+    protected setAccessoryInformation(): void;
     protected setServices(): void;
     protected setCharacteristics(): void;
     getOn(): Promise<CharacteristicValue>;

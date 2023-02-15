@@ -45,8 +45,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
     public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory) {
-            this.log.warn('HBPlatform reacted to an event');
-            this.log.warn('Observable: ' + observable.name + ' changed to ' + observable.state);
+            this.log.warn('[VDPHomebridgePlatform](Observer.Update) VDPAccessory |' + observable.name + '| Reacted To An Event');
         }
     }
 

@@ -25,8 +25,8 @@ export declare abstract class VDPAccessory implements VDPObserver, VDPObservable
     protected _serialNumber: string;
     constructor(HBPlatform: VDPHomebridgePlatform, HBPlatformAccessory: PlatformAccessory);
     updateName(name: string): void;
-    protected initialize(): void;
-    protected setAccessoryInformation(): void;
+    protected abstract initialize(): void;
+    protected abstract setAccessoryInformation(): void;
     protected abstract setServices(): void;
     protected abstract setCharacteristics(): void;
     abstract getOn(): Promise<CharacteristicValue>;

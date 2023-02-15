@@ -8,6 +8,17 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.DEVICE_MODEL = "VDP Outlet Accessory";
         this.observers = [];
     }
+    initialize() {
+        this.setAccessoryInformation();
+        this.setServices();
+        this.setCharacteristics();
+    }
+    setAccessoryInformation() {
+        this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
+            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.DEVICE_MODEL)
+            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
+    }
     setServices() {
         this._accessoryCharacteristics = { On: false, Name: this._name };
         this._accessoryState = { On: false };
@@ -29,9 +40,8 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.notify();
     }
     update(observable) {
-        this.HBPlatform.log.error('VDPAccessoryOutlet Reacted To An Event');
-        if (observable instanceof VDPAccessory_1.VDPAccessory && observable.state === true) {
-            //console.log('ConcreteObserverA: Reacted to the event.');
+        if (observable instanceof VDPAccessory_1.VDPAccessory) {
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update) VDPAccessory |' + observable.name + '| Reacted To An Event');
         }
     }
 }

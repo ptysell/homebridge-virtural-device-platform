@@ -31,8 +31,7 @@ class VDPHomebridgePlatform {
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.log.warn('HBPlatform reacted to an event');
-            this.log.warn('Observable: ' + observable.name + ' changed to ' + observable.state);
+            this.log.warn('[VDPHomebridgePlatform](Observer.Update) VDPAccessory |' + observable.name + '| Reacted To An Event');
         }
     }
     /**

@@ -70,23 +70,9 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         this._name = name;
     }
 
-    protected initialize(): void {
+    protected abstract initialize(): void;
 
-        this.setAccessoryInformation();
-        this.setServices();
-        this.setCharacteristics();
-
-    }
-
-    protected setAccessoryInformation(): void {
-
-        this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)!
-            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.DEVICE_MODEL)
-            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
-
-    }
-
+    protected abstract setAccessoryInformation(): void;
     protected abstract setServices(): void;
     protected abstract setCharacteristics(): void;
 

@@ -28,17 +28,6 @@ class VDPAccessory {
     updateName(name) {
         this._name = name;
     }
-    initialize() {
-        this.setAccessoryInformation();
-        this.setServices();
-        this.setCharacteristics();
-    }
-    setAccessoryInformation() {
-        this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
-            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.DEVICE_MODEL)
-            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
-    }
     attach(observer) {
         const isExist = this.observers.includes(observer);
         if (isExist) {
