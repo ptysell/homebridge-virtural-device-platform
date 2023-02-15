@@ -14,7 +14,7 @@ export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
 
 export class VDPAccessoryOutlet extends VDPAccessory {
 
-    protected DEVICE_MODEL: string = "VDP Outlet Accessory";
+    protected DEVICE_MODEL = "VDP Outlet Accessory";
 
     protected observers: VDPObserver[] = [];
 
