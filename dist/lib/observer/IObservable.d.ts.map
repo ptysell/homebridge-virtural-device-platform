@@ -1,0 +1,1 @@
+{"version":3,"file":"IObservable.d.ts","sourceRoot":"","sources":["../../../src/lib/observer/IObservable.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAExC,MAAM,WAAW,WAAW;IAExB,MAAM,CAAC,QAAQ,EAAE,SAAS,GAAG,IAAI,CAAC;IAElC,MAAM,CAAC,QAAQ,EAAE,SAAS,GAAG,IAAI,CAAC;IAElC,MAAM,IAAI,IAAI,CAAC;CAElB"}

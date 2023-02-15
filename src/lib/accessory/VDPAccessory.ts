@@ -1,88 +1,121 @@
-// import { API, Categories, Characteristic, PlatformAccessory, Service } from 'homebridge';
-// import { HomebridgeAPI } from 'homebridge/lib/api';
-// import { VDPHome } from '../home/VDPHome';
-// import { VDPRoom } from '../home/VDPRoom';
-// //import { VDPAccessoryCategory } from './VDPAccessoryCategory';
-// //import { VDPAccessoryCategoryType } from './VDPAccessoryCategoryType';
-// import { VDPAccessoryProfile } from './VDPAccessoryProfile';
-// import { VDPService } from './VDPService';
-
-// export abstract class VDPAccessory {
-
-//     protected _name: string;
-//     protected _uniqueIdentifier: string;
-
-//     protected _room: VDPRoom | undefined;
-//     protected _area: VDPArea | undefined;
-
-//     protected _hbPlatformAccessory: PlatformAccessory | undefined;
-//     protected _hbServices: Service[] | undefined;
-//     protected _hbCharacteristic: Characteristic[] | undefined;
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { VDPHomebridgePlatform } from '../../platform';
+//import { VDPRoom } from '../home/VDPRoom';
+import { DEVICE_MANUFACTURER } from '../../settings';
+import { IObservable } from '../observer/IObservable';
+import { IObserver } from '../observer/IObserver';
 
 
 
-//     //public _category: VDPAccessoryCategory | undefined;
-//     // public _profiles: VDPAccessoryProfile[] | undefined;
-//     // public _services: VDPService[] | undefined;
+export interface IVDPAccessoryState{}
+export interface IVDPAccessoryCharacteristics {}
+export abstract class VDPAccessory implements IObserver, IObservable {
 
-//     // public state = false;
+    protected observers: IObserver[] = [];
 
+    protected DEVICE_MODEL = '';
 
+    protected _name: string;
+    get name():string {
+        return this._name;
+    }
 
+    protected _uniqueIdentifier: string;
 
-//     constructor(
-//         private readonly platform: ExampleHomebridgePlatform,
-//         private readonly accessory: PlatformAccessory,
-//     ) {
-//         this._name = name;
-//         this._uniqueIdentifier = uniqueIdentifier;
-//     }
+    protected _accessoryState!: IVDPAccessoryState;
+    protected _accessoryCharacteristics!: IVDPAccessoryCharacteristics;
+    public state = false;
 
-//     get name(): string{
-//         return this._name;
-//     }
+    //protected _vdpRoom: VDPRoom;
+    //
+    protected _hbPlatform: VDPHomebridgePlatform;
 
-//     set name(name: string){
-//         this._name = name;
-//     }
+    protected _hbPlatformAccessory: PlatformAccessory;
+    //protected _hbPlatformServices: Service[] | undefined;
+    protected _hbPlatformAccessoryService!: Service;
+    //protected _hbCharacteristic: Characteristic[] | undefined;
 
-//     get uniqueIdentifier(): string{
-//         return this._uniqueIdentifier;
-//     }
-
-//     set uniqueIdentifier(uniqueIdentifier: string){
-//         this._uniqueIdentifier = uniqueIdentifier;
-//     }
-
-//     get room(): VDPRoom | undefined {
-//         return this._room;
-//     }
-
-//     set room(room: VDPRoom | undefined) {
-//         this._room = room;
-
-//     }
-
-//     // get category(): VDPAccessoryCategory{
-//     //     return this._category;
-//     // }
-
-//     // set category(category: VDPAccessoryCategory){
-//     //     this._category = category;
-//     // }
+    protected _manufacturer: string;
+    protected _model: string;
+    protected _serialNumber: string;
 
 
+    constructor(
+        private readonly HBPlatform: VDPHomebridgePlatform,
+        private readonly HBPlatformAccessory: PlatformAccessory,
+    ) {
 
-//     updateUniqueIdentifier(uniqueIdentifier: string) {
-//         this.uniqueIdentifier = uniqueIdentifier;
-//     }
+        this._name = HBPlatformAccessory.displayName;
+        this._uniqueIdentifier = HBPlatformAccessory.UUID;
 
-//     getOn(){
-//         return this.state;
-//     }
+        //this._accessoryState = {name: this._name, uniqueIdentifier: this._uniqueIdentifier};
 
-//     setOn(){
-//         return !this.state;
-//     }
 
-// }
+        this._hbPlatform = HBPlatform;
+        this._hbPlatformAccessory = HBPlatformAccessory;
+        //this._hbPlatformAccessoryService = this.HBPlatformAccessory.services;
+        //this._hbCharacteristic = this._hbServices[0].characteristics.
+
+        this._manufacturer = DEVICE_MANUFACTURER;
+        this._model = this.DEVICE_MODEL;
+        this._serialNumber = this._hbPlatformAccessory.UUID;
+
+        this.initialize();
+
+
+    }
+
+    updateName(name: string){
+        this._name = name;
+    }
+
+    protected initialize(): void {
+
+        this.setAccessoryInformation();
+        this.setServices();
+        this.setCharacteristics();
+
+    }
+
+    protected setAccessoryInformation(): void {
+
+        this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)!
+            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this._model)
+            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
+
+    }
+
+    protected abstract setServices(): void;
+    protected abstract setCharacteristics(): void;
+
+    abstract getOn(): Promise<CharacteristicValue>;
+    abstract setOn(value: CharacteristicValue): void;
+
+    public attach (observer: IObserver): void {
+        const isExist = this.observers.includes(observer);
+        if (isExist) {
+            return;
+        }
+        this.observers.push(observer);
+    }
+
+    public detach (observer: IObserver): void {
+        const observerIndex = this.observers.indexOf(observer);
+        if (observerIndex === -1) {
+            return;
+        }
+
+        this.observers.splice(observerIndex, 1);
+    }
+
+    public notify(): void {
+        for (const observer of this.observers) {
+            observer.update(this);
+        }
+    }
+
+    abstract update(observable: IObservable): void;
+
+}

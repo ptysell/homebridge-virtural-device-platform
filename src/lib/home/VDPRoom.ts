@@ -1,6 +1,8 @@
 // import { VDPAccessory } from '../accessory/VDPAccessory';
+// import { IObservable } from '../observer/IObservable';
+// import { IObserver } from '../observer/IObserver';
 
-// export class VDPRoom {
+// export class VDPRoom implements IObserver, IObservable {
 
 //     public _name: string;
 //     public _uniqueIdentifier: string;
@@ -14,6 +16,22 @@
 //         this._name = name;
 
 
+//     }
+
+//     attach(observer: IObserver): void {
+//         throw new Error('Method not implemented.');
+//     }
+
+//     detach(observer: IObserver): void {
+//         throw new Error('Method not implemented.');
+//     }
+
+//     notify(): void {
+//         throw new Error('Method not implemented.');
+//     }
+
+//     update(observable: IObservable): void {
+//         throw new Error('Method not implemented.');
 //     }
 
 //     get name(): string {
