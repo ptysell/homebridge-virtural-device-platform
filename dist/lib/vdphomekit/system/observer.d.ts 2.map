@@ -1,1 +1,0 @@
-{"version":3,"file":"observer.d.ts","sourceRoot":"","sources":["../../../../src/lib/vdphomekit/system/observer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,cAAc,CAAC;AAE7C,MAAM,WAAW,WAAW;IAExB,MAAM,CAAC,UAAU,EAAE,aAAa,GAAG,IAAI,CAAC;CAE3C;AAED,oBAAY,gBAAgB,GAAG,CAAC,QAAQ,EAAE,GAAG,KAAK,IAAI,CAAC"}

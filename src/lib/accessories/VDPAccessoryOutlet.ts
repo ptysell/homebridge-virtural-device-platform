@@ -45,15 +45,20 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
     async getOn(): Promise<CharacteristicValue> {
 
+        this.HBPlatform.log.warn('getOn: ' + this.On)
         return this.On;
 
     }
 
     async setOn(value: CharacteristicValue) {
+        this.HBPlatform.log.warn('setOn-01: ' + this.On + ' | ' + value)
 
         this.On = value as boolean;
         
         this.notify();
+
+        this.HBPlatform.log.warn('setOn-02: ' + this.On + ' | ' + value)
+
 
     }
 

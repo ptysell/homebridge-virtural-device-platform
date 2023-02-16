@@ -21,11 +21,14 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
             this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
     }
     async getOn() {
+        this.HBPlatform.log.warn('getOn: ' + this.On);
         return this.On;
     }
     async setOn(value) {
+        this.HBPlatform.log.warn('setOn-01: ' + this.On + ' | ' + value);
         this.On = value;
         this.notify();
+        this.HBPlatform.log.warn('setOn-02: ' + this.On + ' | ' + value);
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
