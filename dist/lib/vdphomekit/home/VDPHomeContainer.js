@@ -63,7 +63,7 @@ class VDPHomeContainer {
             return;
         }
         this.containers.push(container);
-        this.attach(container, '', '<addContainer>');
+        this.attach(container, container.name, '<addContainer>');
     }
     removeContainer(container) {
         const containerIndex = this.containers.indexOf(container);
