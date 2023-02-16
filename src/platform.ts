@@ -175,8 +175,6 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
                 this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
             }
 
-            roomAccessory.attach(this);
-
             for (const area of room.roomAreas) {
 
                 const areaUUID = this.api.hap.uuid.generate(area.areaID);
@@ -194,7 +192,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
     
                 }
 
-                areaAccessory.attach(this);
+                roomAccessory.attach(areaAccessory);
                 areaAccessory.attach(roomAccessory);
 
             }

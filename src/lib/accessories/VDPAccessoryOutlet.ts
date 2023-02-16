@@ -12,16 +12,10 @@ export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacte
     setOn(value: CharacteristicValue): void;
     Name?: string;
 }
-export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
-    Manufacturer: string;
-    Model: string;
-    SerialNumber: string;
-}
 
 export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
+    
     protected _hbPlatformAccessoryService: Service;
-
-    //protected _accessoryCharacteristics: IVDPAccessoryCharacteristics;
 
     public On: boolean;
 
@@ -38,16 +32,14 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
         this.accessoryInformation.Model = DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
 
-        console.log('Setting Accessory Model: ' + this.accessoryInformation.Model);
-
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)!
             .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this.accessoryInformation.Manufacturer)
             .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
 
-
         this.On = false;
-        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || 
+            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
 
     }
 
@@ -67,9 +59,8 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
     public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update) VDPAccessory |' + observable.name + '| Reacted To An Event');
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + observable.name + '| Reacted To An Event');
         }
     }
-
 
 }

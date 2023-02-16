@@ -9,11 +9,6 @@ export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacte
     setOn(value: CharacteristicValue): void;
     Name?: string;
 }
-export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
-    Manufacturer: string;
-    Model: string;
-    SerialNumber: string;
-}
 export declare class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
     protected readonly platform: VDPHomebridgePlatform;
     protected readonly accessory: PlatformAccessory;

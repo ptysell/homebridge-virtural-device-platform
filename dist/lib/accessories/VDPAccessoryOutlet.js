@@ -12,13 +12,13 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.accessoryInformation.Manufacturer = settings_1.DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = exports.DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
-        console.log('Setting Accessory Model: ' + this.accessoryInformation.Model);
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
             .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this.accessoryInformation.Manufacturer)
             .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
         this.On = false;
-        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) ||
+            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
     }
     async getOn() {
         return this.On;
@@ -29,7 +29,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update) VDPAccessory |' + observable.name + '| Reacted To An Event');
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + observable.name + '| Reacted To An Event');
         }
     }
 }

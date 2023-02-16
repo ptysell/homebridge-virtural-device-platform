@@ -152,7 +152,6 @@ class VDPHomebridgePlatform {
                 roomAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, accessory);
                 this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
             }
-            roomAccessory.attach(this);
             for (const area of room.roomAreas) {
                 const areaUUID = this.api.hap.uuid.generate(area.areaID);
                 const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
@@ -167,7 +166,7 @@ class VDPHomebridgePlatform {
                     areaAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, accessory);
                     this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
                 }
-                areaAccessory.attach(this);
+                roomAccessory.attach(areaAccessory);
                 areaAccessory.attach(roomAccessory);
             }
             //     for (const area of room.roomAreas) {
