@@ -12,7 +12,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         this.accessoryInformation.Manufacturer = settings_1.DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = exports.DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
-        console.log('Setting Accessory Model: ' + this.accessoryInformation.Manufacturer);
+        console.log('Setting Accessory Model: ' + this.accessoryInformation.Model);
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
             .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this.accessoryInformation.Manufacturer)
             .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
