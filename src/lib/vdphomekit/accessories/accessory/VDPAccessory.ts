@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
-import { VDPHomebridgePlatform } from '../../platform';
+import { VDPHomebridgePlatform } from '../../../../platform';
 //import { VDPRoom } from '../home/VDPRoom';
-import { DEVICE_MANUFACTURER } from '../../settings';
-import { VDPObservable } from '../vdphomekit/system/observable';
-import { VDPObserver } from '../vdphomekit/system/observer';
+import { DEVICE_MANUFACTURER } from '../../../../settings';
+import { VDPObservable } from '../../system/observable';
+import { VDPObserver } from '../../system/observer';
 
 export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
     Manufacturer: string;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPAccessoryOutlet = exports.DEVICE_MODEL = void 0;
 const settings_1 = require("../../settings");
-const VDPAccessory_1 = require("../accessory/VDPAccessory");
+const VDPAccessory_1 = require("../vdphomekit/accessories/accessory/VDPAccessory");
 exports.DEVICE_MODEL = 'VDP Outlet Accessory';
 class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     constructor(platform, accessory) {

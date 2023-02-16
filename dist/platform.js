@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
 const VDPAccessoryOutlet_1 = require("./lib/accessories/VDPAccessoryOutlet");
-const VDPAccessory_1 = require("./lib/accessory/VDPAccessory");
+const VDPAccessory_1 = require("./lib/vdphomekit/accessories/accessory/VDPAccessory");
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -140,6 +140,8 @@ class VDPHomebridgePlatform {
         // loop over the discovered devices and register each one if it has not already been registered
         for (const room of exampleDevices) {
             const roomUUID = this.api.hap.uuid.generate(room.roomID);
+            const roomUUID2 = vdp.system.uuid.generate(room.roomID);
+            this.log.warn('UUID: ' + roomUUID + ' | ' + roomUUID2);
             const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
             let roomAccessory;
             if (existingRoomAccessory) {

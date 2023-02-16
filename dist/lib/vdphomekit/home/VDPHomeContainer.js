@@ -5,7 +5,7 @@ class VDPHomeContainer {
     constructor(name) {
         this._observers = [];
         this._name = name;
-        this._uniqueIdentifier = 'NOT IMPLEMENTED';
+        this._uniqueIdentifier = '';
         this._accessory = null;
         this._accessories = [];
         this._containers = [];

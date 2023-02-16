@@ -1,7 +1,7 @@
 import { PlatformAccessory, Service } from 'homebridge';
-import { VDPHomebridgePlatform } from '../../platform';
-import { VDPObservable } from '../vdphomekit/system/observable';
-import { VDPObserver } from '../vdphomekit/system/observer';
+import { VDPHomebridgePlatform } from '../../../../platform';
+import { VDPObservable } from '../../system/observable';
+import { VDPObserver } from '../../system/observer';
 export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
     Manufacturer: string;
     Model: string;

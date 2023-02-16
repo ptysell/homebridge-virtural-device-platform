@@ -1,7 +1,7 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
 import { DEVICE_MANUFACTURER } from '../../settings';
-import { IVDPAccessoryCharacteristics, VDPAccessory } from '../accessory/VDPAccessory';
+import { IVDPAccessoryCharacteristics, VDPAccessory } from '../vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
 
 export const DEVICE_MODEL: string = 'VDP Outlet Accessory';

@@ -5,7 +5,7 @@ import { accessoryType, VDPPlatformAccessory } from './platformAccessory';
 import { VDPAreaAccessory } from './platformAccessoryArea';
 import { VDPRoomAccessory } from './platformAccessoryRoom';
 import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
-import { VDPAccessory } from './lib/accessory/VDPAccessory';
+import { VDPAccessory } from './lib/vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
 
@@ -162,6 +162,10 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
         for (const room of exampleDevices) {
 
             const roomUUID = this.api.hap.uuid.generate(room.roomID);
+            const roomUUID2 = vdp.system.uuid.generate(room.roomID);
+
+            this.log.warn('UUID: ' + roomUUID + ' | ' + roomUUID2);
+
             const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
             let roomAccessory: VDPAccessoryOutlet;
 
