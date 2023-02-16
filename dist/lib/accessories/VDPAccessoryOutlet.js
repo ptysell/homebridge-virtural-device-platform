@@ -36,7 +36,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     }
     update(observable) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + observable.name + '| Reacted To An Event');
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)| ' + this.name + '| Reacted To An Event|' + observable.name);
         }
     }
 }

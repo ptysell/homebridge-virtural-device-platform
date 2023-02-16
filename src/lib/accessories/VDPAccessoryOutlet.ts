@@ -70,7 +70,7 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
     public update(observable: VDPObservable): void {
         if (observable instanceof VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + observable.name + '| Reacted To An Event');
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)| ' +this.name + '| Reacted To An Event|'+ observable.name);
         }
     }
 
