@@ -9,6 +9,7 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
         super(platform, accessory);
         this.platform = platform;
         this.accessory = accessory;
+        this.name = this.name + ' Switch';
         this.accessoryInformation.Manufacturer = settings_1.DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = exports.DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;

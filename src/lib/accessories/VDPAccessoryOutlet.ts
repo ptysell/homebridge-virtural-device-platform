@@ -28,6 +28,8 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
         super(platform, accessory);
 
+        this.name = this.name + ' Outlet';
+        
         this.accessoryInformation.Manufacturer = DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
