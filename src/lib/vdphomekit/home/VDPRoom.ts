@@ -13,6 +13,9 @@ export class VDPRoom extends VDPHomeContainer{
 
 
 		}
+
+		this.HBPlatform.log.error('[' + observable.constructor.name + '](Observer.Update)|' + key + '|' + message + '|' + this.name);
+
     }
 	
 }

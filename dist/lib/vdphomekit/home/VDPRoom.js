@@ -11,6 +11,7 @@ class VDPRoom extends VDPHomeContainer_1.VDPHomeContainer {
         else if (observable instanceof VDPAccessory_1.VDPAccessory) {
             this.HBPlatform.log.error('[VDPAccessory](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
+        this.HBPlatform.log.error('[' + observable.constructor.name + '](Observer.Update)|' + key + '|' + message + '|' + this.name);
     }
 }
 exports.VDPRoom = VDPRoom;
