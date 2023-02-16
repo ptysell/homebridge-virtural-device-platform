@@ -69,7 +69,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         }
 
 
-		this.attach(this.accessory, '', '');
+		this.attach(this.accessory, this.accessory.name, '<Constructor>');
 
 
 	}
@@ -84,7 +84,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         }
 
         this.accessories.push(accessory);
-		this.attach(accessory, '', '<addAccessory>')
+		this.attach(accessory, accessory.name, '<addAccessory>')
 	
 	}
 
@@ -125,6 +125,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	}
 
 	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
+		this.HBPlatform.log.warn('Attaching ' + key, + ' to Container ' + this.name + '....' )
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
