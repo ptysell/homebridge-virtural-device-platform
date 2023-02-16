@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { access } from "fs";
 import { PlatformAccessory } from "homebridge";
 import { VDPHomebridgePlatform } from "../../../platform";
+import { PLATFORM_NAME, PLUGIN_NAME } from "../../../settings";
 import { VDPAccessoryOutlet } from "../../accessories/VDPAccessoryOutlet";
 import { VDPAccessorySwitch } from "../../accessories/VDPAccessorySwitch";
 import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
@@ -49,7 +50,19 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 		this._name = containerName;
 		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
 
-		this._accessory = new VDPAccessorySwitch(platform, new platform.api.platformAccessory(this.name, this.uniqueIdentifier));
+		const existingTestRoomAccessory = this.HBPlatform.accessories.find(accessory => accessory.UUID === this.uniqueIdentifier);
+
+        if (existingTestRoomAccessory) {
+        	this.HBPlatform.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
+            this._accessory = new VDPAccessorySwitch(this.HBPlatform, existingTestRoomAccessory);
+	    } else {
+            this.HBPlatform.log.debug('Adding New ROOM ACCESSORY:' + this.name);
+            const accessory = new this.HBPlatform.api.platformAccessory(this.name, this.uniqueIdentifier);
+            this._accessory = new VDPAccessorySwitch(this.HBPlatform, accessory);
+            this.HBPlatform.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        }
+
+
 		this.attach(this.accessory, '', '');
 
 		this._accessories = [];
@@ -61,13 +74,15 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 	public addAccessory(accessory: VDPAccessory) {
 
+		this.HBPlatform.log.warn('Adding ACCESSORY to ROOM |' + accessory.name + ' | ' + this.name)
+
 		const isExist = this.accessories.includes(accessory);
         if (isExist) {
             return;
         }
 
         this.accessories.push(accessory);
-		this.attach(accessory, '', '')
+		this.attach(accessory, '', '<addAccessory>')
 	
 	}
 
@@ -91,7 +106,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         }
 		
         this.containers.push(container);
-		this.attach(container, '', '')
+		this.attach(container, '', '<addContainer>')
 	
 	}
 
