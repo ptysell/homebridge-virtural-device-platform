@@ -6,7 +6,7 @@ export class VDPRoom extends VDPHomeContainer{
 
 
  public update(observable: VDPObservable, key?: string, message?: string ): void {
-        if (observable instanceof VDPRoom) {
+        if (observable instanceof VDPHomeContainer) {
             this.HBPlatform.log.error('[VDPContainerRoom](Observer.Update)|' + key + '|' + message + '|' + this.name);
         } else if (observable instanceof VDPAccessory) {
             this.HBPlatform.log.error('[VDPAccessory](Observer.Update)|' + key + '|' + message + '|' + this.name);
