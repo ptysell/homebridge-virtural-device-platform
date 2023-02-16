@@ -41,6 +41,12 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
         this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || 
             this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
 
+        this.HBPlatformAccessoryService.setCharacteristic(this.platform.Characteristic.Name, this.name);
+
+        this.HBPlatformAccessoryService.getCharacteristic(this.platform.Characteristic.On)
+            .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
+            .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
+
     }
 
     async getOn(): Promise<CharacteristicValue> {
