@@ -83,18 +83,8 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
        // this.initialize();
 
     }
-
-
-   // protected abstract initialize(): void;
-
-    // protected abstract setAccessoryInformation(): void;
-    // protected abstract setServices(): void;
-    // protected abstract setCharacteristics(): void;
-
-    //abstract getOn(): Promise<CharacteristicValue>;
-    //abstract setOn(value: CharacteristicValue): void;
-
-    public attach (observer: VDPObserver): void {
+    
+    public attach ( observer: VDPObserver, key?: string, message?: string ): void {
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
@@ -102,7 +92,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         this.observers.push(observer);
     }
 
-    public detach (observer: VDPObserver): void {
+    public detach ( observer: VDPObserver, key?: string, message?: string ): void {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return;
@@ -111,12 +101,12 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         this.observers.splice(observerIndex, 1);
     }
 
-    public notify(): void {
+    public notify( key?: string, message?: string ): void {
         for (const observer of this.observers) {
-            observer.update(this);
+            observer.update(this, key, message);
         }
     }
 
-    abstract update(observable: VDPObservable): void;
+    abstract update(observable: VDPObservable, key?: string, message?: string): void;
 
 }

@@ -57,20 +57,13 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
     }
 
     async setOn(value: CharacteristicValue) {
-        this.HBPlatform.log.warn('setOn-01: ' + this.On + ' | ' + value)
-
         this.On = value as boolean;
-        
-        this.notify();
-
-        this.HBPlatform.log.warn('setOn-02: ' + this.On + ' | ' + value)
-
-
+        this.notify('VDPAccessoryOutlet:' + this.name , '<setOn>');
     }
 
-    public update(observable: VDPObservable): void {
+    public update(observable: VDPObservable, key?: string, message?: string ): void {
         if (observable instanceof VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)| ' +this.name + '| Reacted To An Event|'+ observable.name);
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + observable.name);
         }
     }
 

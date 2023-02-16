@@ -2,10 +2,10 @@ import { VDPObserver } from "./observer";
 
 export interface VDPObservable {
 
-    attach(observer: VDPObserver): void;
+    attach(observer: VDPObserver, key?: string, message?: string): void;
 
-    detach(observer: VDPObserver): void;
+    detach(observer: VDPObserver, key?: string, message?: string): void;
 
-    notify(): void;
+    notify(key?: string, message?: string): void;
 
 }

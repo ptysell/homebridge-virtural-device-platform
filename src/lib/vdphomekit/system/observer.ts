@@ -2,7 +2,7 @@ import { VDPObservable } from "./observable";
 
 export interface VDPObserver {
 
-    update(observable: VDPObservable): void;
+    update(observable: VDPObservable, key?: string, message?: string): void;
 
 }
 

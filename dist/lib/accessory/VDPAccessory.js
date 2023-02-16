@@ -42,29 +42,23 @@ class VDPAccessory {
     set accessoryInformation(characteristic) { this._accessoryInformation = characteristic; }
     get accessoryCharacteristics() { return this._accessoryCharacteristics; }
     set accessoryCharacteristics(accessoryCharacteristics) { this._accessoryCharacteristics = accessoryCharacteristics; }
-    // protected abstract initialize(): void;
-    // protected abstract setAccessoryInformation(): void;
-    // protected abstract setServices(): void;
-    // protected abstract setCharacteristics(): void;
-    //abstract getOn(): Promise<CharacteristicValue>;
-    //abstract setOn(value: CharacteristicValue): void;
-    attach(observer) {
+    attach(observer, key, message) {
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
         }
         this.observers.push(observer);
     }
-    detach(observer) {
+    detach(observer, key, message) {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return;
         }
         this.observers.splice(observerIndex, 1);
     }
-    notify() {
+    notify(key, message) {
         for (const observer of this.observers) {
-            observer.update(this);
+            observer.update(this, key, message);
         }
     }
 }

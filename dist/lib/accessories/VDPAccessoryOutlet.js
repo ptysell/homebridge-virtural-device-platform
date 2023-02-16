@@ -29,14 +29,12 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
         return this.On;
     }
     async setOn(value) {
-        this.HBPlatform.log.warn('setOn-01: ' + this.On + ' | ' + value);
         this.On = value;
-        this.notify();
-        this.HBPlatform.log.warn('setOn-02: ' + this.On + ' | ' + value);
+        this.notify('VDPAccessoryOutlet:' + this.name, '<setOn>');
     }
-    update(observable) {
+    update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)| ' + this.name + '| Reacted To An Event|' + observable.name);
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + observable.name);
         }
     }
 }

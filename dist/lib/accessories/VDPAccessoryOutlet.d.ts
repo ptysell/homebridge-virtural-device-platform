@@ -17,6 +17,6 @@ export declare class VDPAccessoryOutlet extends VDPAccessory implements VDPAcces
     constructor(platform: VDPHomebridgePlatform, accessory: PlatformAccessory);
     getOn(): Promise<CharacteristicValue>;
     setOn(value: CharacteristicValue): Promise<void>;
-    update(observable: VDPObservable): void;
+    update(observable: VDPObservable, key?: string, message?: string): void;
 }
 //# sourceMappingURL=VDPAccessoryOutlet.d.ts.map

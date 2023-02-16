@@ -38,9 +38,9 @@ export declare abstract class VDPAccessory implements VDPObserver, VDPObservable
     get accessoryCharacteristics(): IVDPAccessoryCharacteristics;
     protected set accessoryCharacteristics(accessoryCharacteristics: IVDPAccessoryCharacteristics);
     constructor(platform: VDPHomebridgePlatform, platformAccessory: PlatformAccessory);
-    attach(observer: VDPObserver): void;
-    detach(observer: VDPObserver): void;
-    notify(): void;
-    abstract update(observable: VDPObservable): void;
+    attach(observer: VDPObserver, key?: string, message?: string): void;
+    detach(observer: VDPObserver, key?: string, message?: string): void;
+    notify(key?: string, message?: string): void;
+    abstract update(observable: VDPObservable, key?: string, message?: string): void;
 }
 //# sourceMappingURL=VDPAccessory.d.ts.map
