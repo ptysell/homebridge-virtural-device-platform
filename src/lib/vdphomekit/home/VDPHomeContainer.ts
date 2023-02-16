@@ -125,13 +125,13 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	}
 
 	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
-		this.HBPlatform.log.warn('Attaching ' + key, + ' to Container ' + this.name + '....(1)' )
+		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '....(1)' )
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
         }
         this.observers.push(observer);
-		this.HBPlatform.log.warn('Attaching ' + key, + ' to Container ' + this._name + '....(2)' )
+		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this._name + '....(2)' )
 
     }
 
