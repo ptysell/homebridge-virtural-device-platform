@@ -25,7 +25,6 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
     }
     async getOn() {
-        this.HBPlatform.log.warn('getOn: ' + this.On);
         return this.On;
     }
     async setOn(value) {
@@ -34,7 +33,7 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     }
     update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + observable.name);
+            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
     }
 }
