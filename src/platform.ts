@@ -191,24 +191,32 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
         for (const room of exampleDevices) {
 
+            this.log.error('Iterating ROOOM: ' + room.roomName);
+
             const TestRoom = new VDPRoom(room.roomName, this)
 
-            for (const TestRoomAccessory of TestRoom.accessories) {
+            for (const TestRoomAccessory of room.roomAccessories) {
+
+                this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
+
+
+                 const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID);
+
 
                 let TestRoomAccessory2: VDPAccessory;
-                const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessory.uniqueIdentifier);
+                const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessoryUUID);
 
                 if (existingTestRoomAccessory) {
                     this.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
                     TestRoomAccessory2 = new VDPAccessorySwitch(this, existingTestRoomAccessory);
                 } else {
-                    this.log.debug('Adding New ROOM ACCESSORY:' + TestRoomAccessory.name);
-                    const accessory = new this.api.platformAccessory(TestRoomAccessory.name, TestRoomAccessory.uniqueIdentifier);
+                    this.log.debug('Adding New ROOM ACCESSORY:' + TestRoomAccessory.accessoryName);
+                    const accessory = new this.api.platformAccessory(TestRoomAccessory.accessoryName, TestRoomAccessoryUUID);
                     TestRoomAccessory2 = new VDPAccessorySwitch(this, accessory);
                     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
                 }
 
-                TestRoom.addAccessory(TestRoomAccessory);
+                TestRoom.addAccessory(TestRoomAccessory2);
 
 
 
