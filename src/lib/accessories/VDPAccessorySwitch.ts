@@ -4,7 +4,7 @@ import { DEVICE_MANUFACTURER } from '../../settings';
 import { IVDPAccessoryCharacteristics, VDPAccessory } from '../vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
 
-export const DEVICE_MODEL: string = 'VDP Outlet Accessory';
+export const DEVICE_MODEL: string = 'VDP Switch Accessory';
 
 export interface VDPAccessoryCharacteristicsSwitch extends IVDPAccessoryCharacteristics {
     On: boolean;
@@ -55,7 +55,7 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
 
     async setOn(value: CharacteristicValue) {
         this.On = value as boolean;
-        this.notify('VDPAccessorySwitch:' + this.name , '<setOn>');
+        this.notify(this.name , '<setOn>');
     }
 
     public update(observable: VDPObservable, key?: string, message?: string ): void {

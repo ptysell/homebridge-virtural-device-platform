@@ -7,7 +7,7 @@ export declare abstract class VDPHomeContainer implements VDPObserver, VDPObserv
     protected readonly platform: VDPHomebridgePlatform;
     private _observers;
     protected get observers(): VDPObserver[];
-    private set observers(value);
+    protected set observers(observers: VDPObserver[]);
     private _name;
     get name(): string;
     protected set name(name: string);

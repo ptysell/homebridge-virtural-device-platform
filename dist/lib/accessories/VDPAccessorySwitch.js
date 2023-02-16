@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPAccessorySwitch = exports.DEVICE_MODEL = void 0;
 const settings_1 = require("../../settings");
 const VDPAccessory_1 = require("../vdphomekit/accessories/accessory/VDPAccessory");
-exports.DEVICE_MODEL = 'VDP Outlet Accessory';
+exports.DEVICE_MODEL = 'VDP Switch Accessory';
 class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
     constructor(platform, accessory) {
         super(platform, accessory);
@@ -29,7 +29,7 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
     }
     async setOn(value) {
         this.On = value;
-        this.notify('VDPAccessorySwitch:' + this.name, '<setOn>');
+        this.notify(this.name, '<setOn>');
     }
     update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {

@@ -13,7 +13,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 	private _observers: VDPObserver[];
 	protected get observers(): VDPObserver[] { return this._observers; }
-	private set observers(observers: VDPObserver[]) { this._observers = observers} 
+	protected set observers(observers: VDPObserver[]) { this._observers = observers} 
 
     private _name: string;
 	public get name(): string { return this._name; }
@@ -125,14 +125,12 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	}
 
 	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
-		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '....(1)' )
+		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '...' )
         const isExist = this.observers.includes(observer);
         if (isExist) {
-            return;
+			throw new Error('attach error');
         }
         this.observers.push(observer);
-		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this._name + '....(2)' )
-
     }
 
     public detach ( observer: VDPObserver, key?: string, message?: string ): void {

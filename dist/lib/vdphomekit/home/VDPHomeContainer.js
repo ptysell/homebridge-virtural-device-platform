@@ -74,13 +74,12 @@ class VDPHomeContainer {
         this.detach(container, '', '');
     }
     attach(observer, key, message) {
-        this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '....(1)');
+        this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '...');
         const isExist = this.observers.includes(observer);
         if (isExist) {
-            return;
+            throw new Error('attach error');
         }
         this.observers.push(observer);
-        this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this._name + '....(2)');
     }
     detach(observer, key, message) {
         const observerIndex = this.observers.indexOf(observer);
