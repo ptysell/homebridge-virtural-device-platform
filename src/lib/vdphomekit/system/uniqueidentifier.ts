@@ -1,5 +1,3 @@
-module vdp.system.uuid {
-
 /// <reference types="node" />
 declare type Binary = Buffer | NodeJS.TypedArray | DataView;
 export declare type BinaryLike = string | Binary;
@@ -32,7 +30,5 @@ export declare function write(uuid: string): Buffer;
 export declare function write(uuid: string, buf: Buffer, offset: number): void;
 export declare function toShortForm(uuid: string, base?: string): string;
 export declare function toLongForm(uuid: string, base?: string): string;
-//export {};
+export {};
 //# sourceMappingURL=uuid.d.ts.map
-
-}

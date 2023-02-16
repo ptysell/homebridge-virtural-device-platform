@@ -8,7 +8,7 @@ import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
 import { VDPAccessory } from './lib/vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
-
+import { generate } from './lib/vdphomekit/system/uniqueidentifier';
 
 /**
  * HomebridgePlatform
@@ -22,6 +22,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
     // this is used to track restored cached accessories
     public readonly accessories: PlatformAccessory[] = [];
+
 
 
     constructor(
@@ -162,7 +163,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
         for (const room of exampleDevices) {
 
             const roomUUID = this.api.hap.uuid.generate(room.roomID);
-            const roomUUID2 = vdp.system.uuid.generate(room.roomID);
+            const roomUUID2 = generate(room.roomID);
 
             this.log.warn('UUID: ' + roomUUID + ' | ' + roomUUID2);
 
