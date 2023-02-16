@@ -1,36 +1,43 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
 import { VDPObservable } from '../vdphomekit/system/observable';
 import { VDPObserver } from '../vdphomekit/system/observer';
-export interface IVDPAccessoryState {
+export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
+    Manufacturer: string;
+    Model: string;
+    SerialNumber: string;
 }
 export interface IVDPAccessoryCharacteristics {
 }
 export declare abstract class VDPAccessory implements VDPObserver, VDPObservable {
-    protected readonly HBPlatform: VDPHomebridgePlatform;
-    protected readonly HBPlatformAccessory: PlatformAccessory;
-    protected observers: VDPObserver[];
-    protected abstract DEVICE_MODEL: string;
-    protected _name: string;
+    protected readonly platform: VDPHomebridgePlatform;
+    protected readonly platformAccessory: PlatformAccessory;
+    private _observers;
+    get observers(): VDPObserver[];
+    protected set observers(observers: VDPObserver[]);
+    private _name;
     get name(): string;
-    protected _uniqueIdentifier: string;
-    protected _accessoryState: IVDPAccessoryState;
-    protected _accessoryCharacteristics: IVDPAccessoryCharacteristics;
-    state: boolean;
-    protected _hbPlatform: VDPHomebridgePlatform;
-    protected _hbPlatformAccessory: PlatformAccessory;
-    protected _hbPlatformAccessoryService: Service;
-    protected _manufacturer: string;
-    protected _model: string;
-    protected _serialNumber: string;
-    constructor(HBPlatform: VDPHomebridgePlatform, HBPlatformAccessory: PlatformAccessory);
+    protected set name(name: string);
     updateName(name: string): void;
-    protected abstract initialize(): void;
-    protected abstract setAccessoryInformation(): void;
-    protected abstract setServices(): void;
-    protected abstract setCharacteristics(): void;
-    abstract getOn(): Promise<CharacteristicValue>;
-    abstract setOn(value: CharacteristicValue): void;
+    private _uniqueIdentifier;
+    get uniqueIdentifier(): string;
+    protected set uniqueIdentifier(uniqueIdentifier: string);
+    private _hbPlatform;
+    get HBPlatform(): VDPHomebridgePlatform;
+    protected set HBPlatform(platform: VDPHomebridgePlatform);
+    private _hbPlatformAccessory;
+    get HBPlatformAccessory(): PlatformAccessory;
+    protected set HBPlatformAccessory(accessory: PlatformAccessory);
+    protected abstract _hbPlatformAccessoryService: Service;
+    get HBPlatformAccessoryService(): Service;
+    protected set HBPlatformAccessoryServices(service: Service);
+    private _accessoryInformation;
+    get accessoryInformation(): VDPAccessoryCharacteristicsInformation;
+    set accessoryInformation(characteristic: VDPAccessoryCharacteristicsInformation);
+    private _accessoryCharacteristics;
+    get accessoryCharacteristics(): IVDPAccessoryCharacteristics;
+    protected set accessoryCharacteristics(accessoryCharacteristics: IVDPAccessoryCharacteristics);
+    constructor(platform: VDPHomebridgePlatform, platformAccessory: PlatformAccessory);
     attach(observer: VDPObserver): void;
     detach(observer: VDPObserver): void;
     notify(): void;

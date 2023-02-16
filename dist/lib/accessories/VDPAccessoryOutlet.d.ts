@@ -1,27 +1,25 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
-import { IVDPAccessoryCharacteristics, IVDPAccessoryState, VDPAccessory } from '../accessory/VDPAccessory';
+import { IVDPAccessoryCharacteristics, VDPAccessory } from '../accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
-import { VDPObserver } from '../vdphomekit/system/observer';
-export interface IVDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
+export declare const DEVICE_MODEL: string;
+export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
     On: boolean;
+    getOn(): Promise<CharacteristicValue>;
+    setOn(value: CharacteristicValue): void;
     Name?: string;
 }
-export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
-    On: boolean;
+export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
+    Manufacturer: string;
+    Model: string;
+    SerialNumber: string;
 }
-export declare class VDPAccessoryOutlet extends VDPAccessory {
-    protected readonly HBPlatform: VDPHomebridgePlatform;
-    protected readonly HBPlatformAccessory: PlatformAccessory;
-    protected DEVICE_MODEL: string;
-    protected observers: VDPObserver[];
-    protected _accessoryCharacteristics: IVDPAccessoryCharacteristicsOutlet;
-    protected _accessoryState: IVDPAccessoryStateOutlet;
-    constructor(HBPlatform: VDPHomebridgePlatform, HBPlatformAccessory: PlatformAccessory);
-    protected initialize(): void;
-    protected setAccessoryInformation(): void;
-    protected setServices(): void;
-    protected setCharacteristics(): void;
+export declare class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
+    protected readonly platform: VDPHomebridgePlatform;
+    protected readonly accessory: PlatformAccessory;
+    protected _hbPlatformAccessoryService: Service;
+    On: boolean;
+    constructor(platform: VDPHomebridgePlatform, accessory: PlatformAccessory);
     getOn(): Promise<CharacteristicValue>;
     setOn(value: CharacteristicValue): Promise<void>;
     update(observable: VDPObservable): void;

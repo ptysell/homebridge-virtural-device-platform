@@ -1,46 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VDPAccessoryOutlet = void 0;
+exports.VDPAccessoryOutlet = exports.DEVICE_MODEL = void 0;
+const settings_1 = require("../../settings");
 const VDPAccessory_1 = require("../accessory/VDPAccessory");
+exports.DEVICE_MODEL = 'VDP Outlet Accessory';
 class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
-    constructor(HBPlatform, HBPlatformAccessory) {
-        super(HBPlatform, HBPlatformAccessory);
-        this.HBPlatform = HBPlatform;
-        this.HBPlatformAccessory = HBPlatformAccessory;
-        this.DEVICE_MODEL = 'VDP Outlet Accessory';
-        this.observers = [];
-    }
-    initialize() {
-        this._model = this.DEVICE_MODEL;
-        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL);
-        this.setAccessoryInformation();
-        this.setServices();
-        this.setCharacteristics();
-    }
-    setAccessoryInformation() {
+    constructor(platform, accessory) {
+        super(platform, accessory);
+        this.platform = platform;
+        this.accessory = accessory;
+        this.accessoryInformation.Manufacturer = settings_1.DEVICE_MANUFACTURER;
+        this.accessoryInformation.Model = exports.DEVICE_MODEL;
+        this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
+        console.log('Setting Accessory Model: ' + this.accessoryInformation.Manufacturer);
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)
-            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this._model)
-            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
-    }
-    setServices() {
-        this._accessoryCharacteristics = { On: false, Name: this._name };
-        this._accessoryState = { On: false };
-        this._hbPlatformAccessoryService = this._hbPlatformAccessory.getService(this._hbPlatform.Service.Switch) || this._hbPlatformAccessory.addService(this._hbPlatform.Service.Switch);
-    }
-    setCharacteristics() {
-        this._hbPlatformAccessoryService.setCharacteristic(this._hbPlatform.Characteristic.Name, this._name);
-        this._hbPlatformAccessoryService.getCharacteristic(this._hbPlatform.Characteristic.On)
-            .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
-            .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
+            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this.accessoryInformation.Manufacturer)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
+            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
+        this.On = false;
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
     }
     async getOn() {
-        return this._accessoryState.On;
+        return this.On;
     }
     async setOn(value) {
-        this._accessoryState.On = value;
-        this.state = value;
-        this._accessoryCharacteristics.On = value;
+        this.On = value;
         this.notify();
     }
     update(observable) {

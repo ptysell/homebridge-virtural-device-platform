@@ -6,78 +6,93 @@ import { DEVICE_MANUFACTURER } from '../../settings';
 import { VDPObservable } from '../vdphomekit/system/observable';
 import { VDPObserver } from '../vdphomekit/system/observer';
 
+export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
+    Manufacturer: string;
+    Model: string;
+    SerialNumber: string;
+}
 
-
-export interface IVDPAccessoryState{}
 export interface IVDPAccessoryCharacteristics {}
+//export interface HBPlatformAccessoryCharacteristics{}
 export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
-    protected observers: VDPObserver[] = [];
+    private _observers: VDPObserver[] = [];
+    public get observers(): VDPObserver[] { return this._observers; }
+    protected set observers(observers: VDPObserver[]) { this._observers = observers }
 
-    protected abstract DEVICE_MODEL: string;
+    private _name: string;
+    public get name():string { return this._name; }
+    protected set name(name: string) { this._name = name; }
+    public updateName(name: string){ this._name = name; }
 
-    protected _name: string;
-    get name():string {
-        return this._name;
-    }
+    private _uniqueIdentifier: string;
+    public get uniqueIdentifier(): string { return this._uniqueIdentifier; }
+    protected set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier }
 
-    protected _uniqueIdentifier: string;
+    private _hbPlatform: VDPHomebridgePlatform;
+    public get HBPlatform(): VDPHomebridgePlatform { return this._hbPlatform; }
+    protected set HBPlatform(platform: VDPHomebridgePlatform) { this._hbPlatform = platform }
 
-    protected _accessoryState!: IVDPAccessoryState;
-    protected _accessoryCharacteristics!: IVDPAccessoryCharacteristics;
-    public state = false;
+    private _hbPlatformAccessory: PlatformAccessory;
+    public get HBPlatformAccessory(): PlatformAccessory { return this._hbPlatformAccessory }
+    protected set HBPlatformAccessory(accessory: PlatformAccessory) { this._hbPlatformAccessory = accessory; }
 
-    //protected _vdpRoom: VDPRoom;
-    //
-    protected _hbPlatform: VDPHomebridgePlatform;
+    protected abstract _hbPlatformAccessoryService: Service;
+    public get HBPlatformAccessoryService(): Service { return this._hbPlatformAccessoryService; }
+    protected set HBPlatformAccessoryServices(service: Service) { this._hbPlatformAccessoryService = service; }
 
-    protected _hbPlatformAccessory: PlatformAccessory;
+
+    private _accessoryInformation: VDPAccessoryCharacteristicsInformation;
+    public get accessoryInformation():VDPAccessoryCharacteristicsInformation { return this._accessoryInformation };
+    public set accessoryInformation( characteristic: VDPAccessoryCharacteristicsInformation) { this._accessoryInformation = characteristic}
+
+    private _accessoryCharacteristics: IVDPAccessoryCharacteristics;
+    public get accessoryCharacteristics(): IVDPAccessoryCharacteristics { return this._accessoryCharacteristics }
+    protected set accessoryCharacteristics(accessoryCharacteristics: IVDPAccessoryCharacteristics) { this._accessoryCharacteristics = accessoryCharacteristics}
+
+
+    //protected _accessoryCharacteristics: IVDPAccessoryCharacteristics[];
+    //public state = false;
+
     //protected _hbPlatformServices: Service[] | undefined;
-    protected _hbPlatformAccessoryService!: Service;
+    //protected _hbPlatformAccessoryService!: Service;
     //protected _hbCharacteristic: Characteristic[] | undefined;
 
-    protected _manufacturer: string;
-    protected _model: string;
-    protected _serialNumber: string;
-
-
     constructor(
-        protected readonly HBPlatform: VDPHomebridgePlatform,
-        protected readonly HBPlatformAccessory: PlatformAccessory,
+        protected readonly platform: VDPHomebridgePlatform,
+        protected readonly platformAccessory: PlatformAccessory,
     ) {
 
-        this._name = HBPlatformAccessory.displayName;
-        this._uniqueIdentifier = HBPlatformAccessory.UUID;
+        this._name = platformAccessory.displayName;
+        this._uniqueIdentifier = platformAccessory.UUID;
 
-        //this._accessoryState = {name: this._name, uniqueIdentifier: this._uniqueIdentifier};
+        this._hbPlatform = platform;
+        this._hbPlatformAccessory = platformAccessory;
+       // this._hbPlatformAccessoryServices = undefined;
+
+        this._accessoryInformation = {Manufacturer: 'N/A', Model: 'N/A', SerialNumber: 'N/A'};
+        this._accessoryCharacteristics = {};
 
 
-        this._hbPlatform = HBPlatform;
-        this._hbPlatformAccessory = HBPlatformAccessory;
+             //this._accessoryState = {name: this._name, uniqueIdentifier: this._uniqueIdentifier};
+
+
         //this._hbPlatformAccessoryService = this.HBPlatformAccessory.services;
         //this._hbCharacteristic = this._hbServices[0].characteristics.
 
-        this._manufacturer = DEVICE_MANUFACTURER;
-        //this._model = this.DEVICE_MODEL;
-        this._model = "N/A";
-        this._serialNumber = this._hbPlatformAccessory.UUID;
-
-        this.initialize();
+       // this.initialize();
 
     }
 
-    updateName(name: string){
-        this._name = name;
-    }
 
-    protected abstract initialize(): void;
+   // protected abstract initialize(): void;
 
-    protected abstract setAccessoryInformation(): void;
-    protected abstract setServices(): void;
-    protected abstract setCharacteristics(): void;
+    // protected abstract setAccessoryInformation(): void;
+    // protected abstract setServices(): void;
+    // protected abstract setCharacteristics(): void;
 
-    abstract getOn(): Promise<CharacteristicValue>;
-    abstract setOn(value: CharacteristicValue): void;
+    //abstract getOn(): Promise<CharacteristicValue>;
+    //abstract setOn(value: CharacteristicValue): void;
 
     public attach (observer: VDPObserver): void {
         const isExist = this.observers.includes(observer);

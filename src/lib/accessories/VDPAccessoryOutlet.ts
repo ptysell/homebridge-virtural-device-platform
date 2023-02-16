@@ -1,83 +1,66 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 import { VDPHomebridgePlatform } from '../../platform';
-import { IVDPAccessoryCharacteristics, IVDPAccessoryState, VDPAccessory } from '../accessory/VDPAccessory';
+import { DEVICE_MANUFACTURER } from '../../settings';
+import { IVDPAccessoryCharacteristics, VDPAccessory } from '../accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
-import { VDPObserver } from '../vdphomekit/system/observer';
 
-export interface IVDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
+export const DEVICE_MODEL: string = 'VDP Outlet Accessory';
+
+export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
     On: boolean;
+    getOn(): Promise<CharacteristicValue>;
+    setOn(value: CharacteristicValue): void;
     Name?: string;
 }
-
-export interface IVDPAccessoryStateOutlet extends IVDPAccessoryState {
-    On: boolean;
+export interface VDPAccessoryCharacteristicsInformation extends IVDPAccessoryCharacteristics {
+    Manufacturer: string;
+    Model: string;
+    SerialNumber: string;
 }
 
-export class VDPAccessoryOutlet extends VDPAccessory {
+export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
+    protected _hbPlatformAccessoryService: Service;
 
-    protected  DEVICE_MODEL: string = 'VDP Outlet Accessory';
+    //protected _accessoryCharacteristics: IVDPAccessoryCharacteristics;
 
-    protected observers: VDPObserver[] = [];
-
-    protected _accessoryCharacteristics!: IVDPAccessoryCharacteristicsOutlet;
-    protected _accessoryState!: IVDPAccessoryStateOutlet;
+    public On: boolean;
 
     constructor(
-        protected readonly HBPlatform: VDPHomebridgePlatform,
-        protected readonly HBPlatformAccessory: PlatformAccessory,
-    ) {
-        super(HBPlatform, HBPlatformAccessory);
         
-    }
+        protected readonly platform: VDPHomebridgePlatform,
+        protected readonly accessory: PlatformAccessory,
 
-    protected initialize(): void {
+    ) {
 
-        this._model = this.DEVICE_MODEL;
-        console.log('Setting Accessory Model: ' + this.DEVICE_MODEL);
+        super(platform, accessory);
 
-        this.setAccessoryInformation();
-        this.setServices();
-        this.setCharacteristics();
+        this.accessoryInformation.Manufacturer = DEVICE_MANUFACTURER;
+        this.accessoryInformation.Model = DEVICE_MODEL;
+        this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
 
-    }
-
-    protected setAccessoryInformation(): void {
+        console.log('Setting Accessory Model: ' + this.accessoryInformation.Manufacturer);
 
         this.HBPlatformAccessory.getService(this.HBPlatform.Service.AccessoryInformation)!
-            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this._manufacturer)
-            .setCharacteristic(this.HBPlatform.Characteristic.Model, this._model)
-            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this._serialNumber);
-
-    }
+            .setCharacteristic(this.HBPlatform.Characteristic.Manufacturer, this.accessoryInformation.Manufacturer)
+            .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
+            .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
 
 
-    protected setServices(): void {
-        this._accessoryCharacteristics = {On: false, Name: this._name};
-        this._accessoryState = {On: false};
-        this._hbPlatformAccessoryService = this._hbPlatformAccessory.getService(this._hbPlatform.Service.Switch) || this._hbPlatformAccessory.addService(this._hbPlatform.Service.Switch);
-    }
-
-    protected setCharacteristics(): void {
-
-        this._hbPlatformAccessoryService.setCharacteristic(this._hbPlatform.Characteristic.Name, this._name);
-        this._hbPlatformAccessoryService.getCharacteristic(this._hbPlatform.Characteristic.On)
-            .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
-            .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
+        this.On = false;
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
 
     }
 
     async getOn(): Promise<CharacteristicValue> {
 
-        return this._accessoryState.On;
+        return this.On;
 
     }
 
     async setOn(value: CharacteristicValue) {
-        this._accessoryState.On = value as boolean;
 
-        this.state = value as boolean;
-        this._accessoryCharacteristics.On = value as boolean;
-
+        this.On = value as boolean;
+        
         this.notify();
 
     }
