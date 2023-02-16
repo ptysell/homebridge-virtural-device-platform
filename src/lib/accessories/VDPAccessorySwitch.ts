@@ -62,6 +62,8 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
         if (observable instanceof VDPAccessory) {
             this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
+        this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
+
     }
 
 }

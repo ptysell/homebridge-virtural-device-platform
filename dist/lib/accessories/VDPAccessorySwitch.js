@@ -35,6 +35,7 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
             this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
+        this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
     }
 }
 exports.VDPAccessorySwitch = VDPAccessorySwitch;
