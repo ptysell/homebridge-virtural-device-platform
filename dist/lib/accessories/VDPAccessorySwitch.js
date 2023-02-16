@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VDPAccessoryOutlet = exports.DEVICE_MODEL = void 0;
+exports.VDPAccessorySwitch = exports.DEVICE_MODEL = void 0;
 const settings_1 = require("../../settings");
 const VDPAccessory_1 = require("../vdphomekit/accessories/accessory/VDPAccessory");
 exports.DEVICE_MODEL = 'VDP Outlet Accessory';
-class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
+class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
     constructor(platform, accessory) {
         super(platform, accessory);
         this.platform = platform;
@@ -17,8 +17,8 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
             .setCharacteristic(this.HBPlatform.Characteristic.Model, this.accessoryInformation.Model)
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
         this.On = false;
-        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Outlet) ||
-            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Outlet);
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) ||
+            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
         this.HBPlatformAccessoryService.setCharacteristic(this.platform.Characteristic.Name, this.name);
         this.HBPlatformAccessoryService.getCharacteristic(this.platform.Characteristic.On)
             .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
@@ -29,13 +29,13 @@ class VDPAccessoryOutlet extends VDPAccessory_1.VDPAccessory {
     }
     async setOn(value) {
         this.On = value;
-        this.notify('VDPAccessoryOutlet:' + this.name, '<setOn>');
+        this.notify('VDPAccessorySwitch:' + this.name, '<setOn>');
     }
     update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + this.name);
+            this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
     }
 }
-exports.VDPAccessoryOutlet = VDPAccessoryOutlet;
-//# sourceMappingURL=VDPAccessoryOutlet.js.map
+exports.VDPAccessorySwitch = VDPAccessorySwitch;
+//# sourceMappingURL=VDPAccessorySwitch.js.map

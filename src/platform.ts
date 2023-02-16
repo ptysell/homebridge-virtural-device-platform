@@ -8,6 +8,8 @@ import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
 import { VDPAccessory } from './lib/vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
+import { VDPRoom } from './lib/vdphomekit/home/VDPRoom';
+import { VDPAccessorySwitch } from './lib/accessories/VDPAccessorySwitch';
 
 /**
  * HomebridgePlatform
@@ -21,6 +23,8 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
     // this is used to track restored cached accessories
     public readonly accessories: PlatformAccessory[] = [];
+
+    public Rooms: VDPRoom[] = [];
 
 
 
@@ -74,6 +78,19 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             {
                 roomID: 'Room01',
                 roomName: 'Room 01',
+                roomAccessories: [{
+                    accessoryID: 'Room01Accessory01',
+                    accessoryName: 'Room 01 Accessory 01',
+                },
+                {
+                    accessoryID: 'Room01Accessory02',
+                    accessoryName: 'Room 01 Accessory 02',
+                },
+                {
+                    accessoryID: 'Room01Accessory03',
+                    accessoryName: 'Room 01 Accessory 03',
+                },
+                ],
                 roomAreas: [{
                     areaID: 'Room01Area01',
                     areaName: 'Room 01 Area 01',
@@ -110,6 +127,19 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             }, {
                 roomID: 'Room02',
                 roomName: 'Room 02',
+                roomAccessories: [{
+                    accessoryID: 'Room02Accessory01',
+                    accessoryName: 'Room 02 Accessory 01',
+                },
+                {
+                    accessoryID: 'Room02Accessory02',
+                    accessoryName: 'Room 02 Accessory 02',
+                },
+                {
+                    accessoryID: 'Room02Accessory03',
+                    accessoryName: 'Room 02 Accessory 03',
+                },
+                ],
                 roomAreas: [{
                     areaID: 'Room02Area01',
                     areaName: 'Room 02 Area 01',
@@ -161,42 +191,71 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
         for (const room of exampleDevices) {
 
-            const roomUUID = this.api.hap.uuid.generate(room.roomID);
-            const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
+            const TestRoom = new VDPRoom(room.roomName, this)
 
-            let roomAccessory: VDPAccessoryOutlet;
+            for (const TestRoomAccessory of TestRoom.accessories) {
 
-            if (existingRoomAccessory) {
-                this.log.debug('Restoring ROOM Accessory form Cache:' + existingRoomAccessory.displayName);
-                roomAccessory = new VDPAccessoryOutlet(this, existingRoomAccessory);
-            } else {
-                this.log.debug('Adding New ROOM Accessory:' + room.roomName);
-                const accessory = new this.api.platformAccessory(room.roomName, roomUUID);
-                roomAccessory = new VDPAccessoryOutlet(this, accessory);
-                this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-            }
+                let TestRoomAccessory2: VDPAccessory;
+                const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessory.uniqueIdentifier);
 
-            for (const area of room.roomAreas) {
-
-                const areaUUID = this.api.hap.uuid.generate(area.areaID);
-                const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
-                let areaAccessory: VDPAccessoryOutlet;
-
-                if (existingAreaAccessory) {
-                    this.log.debug('Restoring AREA Accessory form Cache:' + existingAreaAccessory.displayName);
-                    areaAccessory = new VDPAccessoryOutlet(this, existingAreaAccessory);
+                if (existingTestRoomAccessory) {
+                    this.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
+                    TestRoomAccessory2 = new VDPAccessorySwitch(this, existingTestRoomAccessory);
                 } else {
-                    this.log.debug('Adding New AREA Accessory:' + area.areaName);
-                    const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
-                    areaAccessory = new VDPAccessoryOutlet(this, accessory);
+                    this.log.debug('Adding New ROOM ACCESSORY:' + TestRoomAccessory.name);
+                    const accessory = new this.api.platformAccessory(TestRoomAccessory.name, TestRoomAccessory.uniqueIdentifier);
+                    TestRoomAccessory2 = new VDPAccessorySwitch(this, accessory);
                     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-    
                 }
 
-                roomAccessory.attach(areaAccessory);
-                areaAccessory.attach(roomAccessory);
+                TestRoom.addAccessory(TestRoomAccessory);
+
+
 
             }
+
+        }
+
+    }
+
+
+
+            // const roomUUID = this.api.hap.uuid.generate(room.roomID);
+            // const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
+
+            // let roomAccessory: VDPAccessoryOutlet;
+
+            // if (existingRoomAccessory) {
+            //     this.log.debug('Restoring ROOM Accessory form Cache:' + existingRoomAccessory.displayName);
+            //     roomAccessory = new VDPAccessoryOutlet(this, existingRoomAccessory);
+            // } else {
+            //     this.log.debug('Adding New ROOM Accessory:' + room.roomName);
+            //     const accessory = new this.api.platformAccessory(room.roomName, roomUUID);
+            //     roomAccessory = new VDPAccessoryOutlet(this, accessory);
+            //     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+            // }
+
+            // for (const area of room.roomAreas) {
+
+            //     const areaUUID = this.api.hap.uuid.generate(area.areaID);
+            //     const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
+            //     let areaAccessory: VDPAccessoryOutlet;
+
+            //     if (existingAreaAccessory) {
+            //         this.log.debug('Restoring AREA Accessory form Cache:' + existingAreaAccessory.displayName);
+            //         areaAccessory = new VDPAccessoryOutlet(this, existingAreaAccessory);
+            //     } else {
+            //         this.log.debug('Adding New AREA Accessory:' + area.areaName);
+            //         const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
+            //         areaAccessory = new VDPAccessoryOutlet(this, accessory);
+            //         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+    
+            //     }
+
+            //     roomAccessory.attach(areaAccessory);
+            //     areaAccessory.attach(roomAccessory);
+
+            //}
 
             //     for (const area of room.roomAreas) {
 
@@ -232,9 +291,9 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
             //             }
 
 
-        //         }
-        }
-    }
+    //     //         }
+    //     }
+    // }
 
 
 

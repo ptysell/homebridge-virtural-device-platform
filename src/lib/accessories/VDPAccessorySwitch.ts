@@ -6,14 +6,14 @@ import { VDPObservable } from '../vdphomekit/system/observable';
 
 export const DEVICE_MODEL: string = 'VDP Outlet Accessory';
 
-export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
+export interface VDPAccessoryCharacteristicsSwitch extends IVDPAccessoryCharacteristics {
     On: boolean;
     getOn(): Promise<CharacteristicValue>;
     setOn(value: CharacteristicValue): void;
     Name?: string;
 }
 
-export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
+export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryCharacteristicsSwitch {
     
     protected _hbPlatformAccessoryService: Service;
 
@@ -38,8 +38,8 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
 
         this.On = false;
-        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Outlet) || 
-            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Outlet);
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || 
+            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
 
         this.HBPlatformAccessoryService.setCharacteristic(this.platform.Characteristic.Name, this.name);
 
@@ -55,12 +55,12 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
     async setOn(value: CharacteristicValue) {
         this.On = value as boolean;
-        this.notify('VDPAccessoryOutlet:' + this.name , '<setOn>');
+        this.notify('VDPAccessorySwitch:' + this.name , '<setOn>');
     }
 
     public update(observable: VDPObservable, key?: string, message?: string ): void {
         if (observable instanceof VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + this.name);
+            this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
     }
 

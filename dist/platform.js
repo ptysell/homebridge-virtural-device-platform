@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
-const VDPAccessoryOutlet_1 = require("./lib/accessories/VDPAccessoryOutlet");
 const VDPAccessory_1 = require("./lib/vdphomekit/accessories/accessory/VDPAccessory");
+const VDPRoom_1 = require("./lib/vdphomekit/home/VDPRoom");
+const VDPAccessorySwitch_1 = require("./lib/accessories/VDPAccessorySwitch");
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -18,6 +19,7 @@ class VDPHomebridgePlatform {
         this.Characteristic = this.api.hap.Characteristic;
         // this is used to track restored cached accessories
         this.accessories = [];
+        this.Rooms = [];
         this.log.debug('Finished initializing platform:', this.config.name);
         // When this event is fired it means Homebridge has restored all cached accessories from disk.
         // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -56,6 +58,19 @@ class VDPHomebridgePlatform {
             {
                 roomID: 'Room01',
                 roomName: 'Room 01',
+                roomAccessories: [{
+                        accessoryID: 'Room01Accessory01',
+                        accessoryName: 'Room 01 Accessory 01',
+                    },
+                    {
+                        accessoryID: 'Room01Accessory02',
+                        accessoryName: 'Room 01 Accessory 02',
+                    },
+                    {
+                        accessoryID: 'Room01Accessory03',
+                        accessoryName: 'Room 01 Accessory 03',
+                    },
+                ],
                 roomAreas: [{
                         areaID: 'Room01Area01',
                         areaName: 'Room 01 Area 01',
@@ -92,6 +107,19 @@ class VDPHomebridgePlatform {
             }, {
                 roomID: 'Room02',
                 roomName: 'Room 02',
+                roomAccessories: [{
+                        accessoryID: 'Room02Accessory01',
+                        accessoryName: 'Room 02 Accessory 01',
+                    },
+                    {
+                        accessoryID: 'Room02Accessory02',
+                        accessoryName: 'Room 02 Accessory 02',
+                    },
+                    {
+                        accessoryID: 'Room02Accessory03',
+                        accessoryName: 'Room 02 Accessory 03',
+                    },
+                ],
                 roomAreas: [{
                         areaID: 'Room02Area01',
                         areaName: 'Room 02 Area 01',
@@ -139,63 +167,22 @@ class VDPHomebridgePlatform {
         // ];
         // loop over the discovered devices and register each one if it has not already been registered
         for (const room of exampleDevices) {
-            const roomUUID = this.api.hap.uuid.generate(room.roomID);
-            const existingRoomAccessory = this.accessories.find(accessory => accessory.UUID === roomUUID);
-            let roomAccessory;
-            if (existingRoomAccessory) {
-                this.log.debug('Restoring ROOM Accessory form Cache:' + existingRoomAccessory.displayName);
-                roomAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, existingRoomAccessory);
-            }
-            else {
-                this.log.debug('Adding New ROOM Accessory:' + room.roomName);
-                const accessory = new this.api.platformAccessory(room.roomName, roomUUID);
-                roomAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, accessory);
-                this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
-            }
-            for (const area of room.roomAreas) {
-                const areaUUID = this.api.hap.uuid.generate(area.areaID);
-                const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
-                let areaAccessory;
-                if (existingAreaAccessory) {
-                    this.log.debug('Restoring AREA Accessory form Cache:' + existingAreaAccessory.displayName);
-                    areaAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, existingAreaAccessory);
+            const TestRoom = new VDPRoom_1.VDPRoom(room.roomName, this);
+            for (const TestRoomAccessory of TestRoom.accessories) {
+                let TestRoomAccessory2;
+                const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessory.uniqueIdentifier);
+                if (existingTestRoomAccessory) {
+                    this.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
+                    TestRoomAccessory2 = new VDPAccessorySwitch_1.VDPAccessorySwitch(this, existingTestRoomAccessory);
                 }
                 else {
-                    this.log.debug('Adding New AREA Accessory:' + area.areaName);
-                    const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
-                    areaAccessory = new VDPAccessoryOutlet_1.VDPAccessoryOutlet(this, accessory);
+                    this.log.debug('Adding New ROOM ACCESSORY:' + TestRoomAccessory.name);
+                    const accessory = new this.api.platformAccessory(TestRoomAccessory.name, TestRoomAccessory.uniqueIdentifier);
+                    TestRoomAccessory2 = new VDPAccessorySwitch_1.VDPAccessorySwitch(this, accessory);
                     this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
                 }
-                roomAccessory.attach(areaAccessory);
-                areaAccessory.attach(roomAccessory);
+                TestRoom.addAccessory(TestRoomAccessory);
             }
-            //     for (const area of room.roomAreas) {
-            //         const areaUUID = this.api.hap.uuid.generate(area.areaID);
-            //         const existingAreaAccessory = this.accessories.find(accessory => accessory.UUID === areaUUID);
-            //         let areaAccessory: VDPAreaAccessory;
-            //         if (existingAreaAccessory) {
-            //             this.log.debug('Restoring Area Accessory form Cache:' + existingAreaAccessory.displayName);
-            //             areaAccessory = new VDPAreaAccessory(this, existingAreaAccessory, roomAccessory);
-            //         } else {
-            //             this.log.debug('Adding New Area Accessory:' + area.areaName);
-            //             const accessory = new this.api.platformAccessory(area.areaName, areaUUID);
-            //             areaAccessory = new VDPAreaAccessory(this, accessory, roomAccessory);
-            //             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-            //         }
-            //         roomAccessory.addArea(areaAccessory);
-            //         for (const device of area.areaAccessories) {
-            //             const accessoryUUID = this.api.hap.uuid.generate(device.accessoryID);
-            //             const existingAccessory = this.accessories.find(accessory => accessory.UUID === accessoryUUID);
-            //             if (existingAccessory) {
-            //                 this.log.debug('Restoring Accessory form Cache:' + existingAccessory.displayName);
-            //                 new VDPPlatformAccessory(this, existingAccessory, accessoryType.Accessory, roomUUID, areaUUID, accessoryUUID);
-            //             } else {
-            //                 this.log.debug('Adding New Accessory:' + device.accessoryName);
-            //                 const accessory = new this.api.platformAccessory(device.accessoryName, accessoryUUID);
-            //                 new VDPPlatformAccessory(this, accessory, accessoryType.Accessory, roomUUID, areaUUID, accessoryUUID);
-            //                 this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-            //             }
-            //         }
         }
     }
 }

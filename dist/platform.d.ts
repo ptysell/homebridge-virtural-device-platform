@@ -1,6 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
+import { VDPRoom } from './lib/vdphomekit/home/VDPRoom';
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -13,6 +14,7 @@ export declare class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDP
     readonly Service: typeof Service;
     readonly Characteristic: typeof Characteristic;
     readonly accessories: PlatformAccessory[];
+    Rooms: VDPRoom[];
     constructor(log: Logger, config: PlatformConfig, api: API);
     update(observable: VDPObservable): void;
     /**

@@ -1,6 +1,9 @@
 import { randomUUID } from "crypto";
 import { access } from "fs";
+import { PlatformAccessory } from "homebridge";
+import { VDPHomebridgePlatform } from "../../../platform";
 import { VDPAccessoryOutlet } from "../../accessories/VDPAccessoryOutlet";
+import { VDPAccessorySwitch } from "../../accessories/VDPAccessorySwitch";
 import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
 import { VDPObservable } from "../system/observable";
 import { VDPObserver } from "../system/observer";
@@ -19,35 +22,114 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	public get uniqueIdentifier(): string { return this._uniqueIdentifier}
 	protected set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier }
 
-	private _accessory: VDPAccessory | unknown;
-	public get accessory(): VDPAccessory | unknown { return this._accessory; }
-	protected set accessory(accessory: VDPAccessory | unknown) { this._accessory = accessory }
+	private _accessory: VDPAccessory;
+	public get accessory(): VDPAccessory { return this._accessory; }
+	protected set accessory(accessory: VDPAccessory ) { this._accessory = accessory }
 
 	private _accessories: VDPAccessory[];
 	public get accessories(): VDPAccessory[] { return this._accessories; }
 	protected set accessories(accessories: VDPAccessory[]) { this._accessories = accessories; }
 
 	private _containers: VDPHomeContainer[];
-	public get containers(): VDPHomeContainer[] { return this._containers }
+	public get containers(): VDPHomeContainer[] { return this._containers; }
 	protected set containers(containers: VDPHomeContainer[]) { this._containers = containers; }
+
+	private _hbPlatform: VDPHomebridgePlatform;
+	public get HBPlatform(): VDPHomebridgePlatform { return this._hbPlatform; }
+	protected set HBPlatform(platform: VDPHomebridgePlatform) { this._hbPlatform = platform }
 
 
 	constructor(
-		name: string,
+		protected readonly containerName: string,
+        protected readonly platform: VDPHomebridgePlatform,
 	){
 
 		this._observers = [];
-		this._name = name;
-		this._uniqueIdentifier = '';
-		this._accessory = null;
+
+		this._name = containerName;
+		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
+
+		this._accessory = new VDPAccessorySwitch(platform, new platform.api.platformAccessory(this.name, this.uniqueIdentifier));
+		this.attach(this.accessory, '', '');
+
 		this._accessories = [];
 		this._containers = [];
 
+		this._hbPlatform = platform;
+
 	}
 
-	abstract update(observable: VDPObservable): void;
-	abstract attach(observer: VDPObserver): void;
-	abstract detach(observer: VDPObserver): void;
-	abstract notify(): void;
+	public addAccessory(accessory: VDPAccessory) {
+
+		const isExist = this.accessories.includes(accessory);
+        if (isExist) {
+            return;
+        }
+
+        this.accessories.push(accessory);
+		this.attach(accessory, '', '')
+	
+	}
+
+	public removeAccessory(accessory: VDPAccessory) {
+
+		const accessoryIndex = this.accessories.indexOf(accessory);
+        if (accessoryIndex === -1) {
+            return;
+        }
+
+        this.accessories.splice(accessoryIndex, 1);
+		this.detach(accessory, '', '')
+	
+	}
+
+	public addContainer(container: VDPHomeContainer) {
+
+		const isExist = this.containers.includes(container);
+        if (isExist) {
+            return;
+        }
+		
+        this.containers.push(container);
+		this.attach(container, '', '')
+	
+	}
+
+	public removeContainer(container: VDPHomeContainer) {
+
+		const containerIndex = this.containers.indexOf(container);
+        if (containerIndex === -1) {
+            return;
+        }
+
+        this.accessories.splice(containerIndex, 1);
+		this.detach(container, '', '')
+	
+	}
+
+	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
+        const isExist = this.observers.includes(observer);
+        if (isExist) {
+            return;
+        }
+        this.observers.push(observer);
+    }
+
+    public detach ( observer: VDPObserver, key?: string, message?: string ): void {
+        const observerIndex = this.observers.indexOf(observer);
+        if (observerIndex === -1) {
+            return;
+        }
+
+        this.observers.splice(observerIndex, 1);
+    }
+
+    public notify( key?: string, message?: string ): void {
+        for (const observer of this.observers) {
+            observer.update(this, key, message);
+        }
+    }
+
+    abstract update(observable: VDPObservable, key?: string, message?: string): void;
 }
 
