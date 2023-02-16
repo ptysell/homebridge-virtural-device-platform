@@ -24,10 +24,12 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
             .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
     }
-    async getOn() {
+    getOn() {
+        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<getOn> ', this.On);
         return this.On;
     }
-    async setOn(value) {
+    setOn(value) {
+        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value);
         this.On = value;
         this.notify(this.name, '<setOn>');
     }

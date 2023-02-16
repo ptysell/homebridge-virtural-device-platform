@@ -8,9 +8,10 @@ export const DEVICE_MODEL: string = 'VDP Switch Accessory';
 
 export interface VDPAccessoryCharacteristicsSwitch extends IVDPAccessoryCharacteristics {
     On: boolean;
-    getOn(): Promise<CharacteristicValue>;
+    getOn(): CharacteristicValue;
+    //getOn(): Promise<CharacteristicValue>;
     setOn(value: CharacteristicValue): void;
-    Name?: string;
+    name: string;
 }
 
 export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryCharacteristicsSwitch {
@@ -49,11 +50,13 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
 
     }
 
-    async getOn(): Promise<CharacteristicValue> {
+    getOn(): CharacteristicValue { // Promise<CharacteristicValue> {
+        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<getOn> ', this.On)
         return this.On;
     }
 
-    async setOn(value: CharacteristicValue) {
+    setOn(value: CharacteristicValue) {
+        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value)
         this.On = value as boolean;
         this.notify(this.name , '<setOn>');
     }
