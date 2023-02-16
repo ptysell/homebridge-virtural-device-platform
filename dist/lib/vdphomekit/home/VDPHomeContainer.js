@@ -10,6 +10,9 @@ class VDPHomeContainer {
         this._observers = [];
         this._name = containerName;
         this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
+        this._accessories = [];
+        this._containers = [];
+        this._hbPlatform = platform;
         const existingTestRoomAccessory = this.HBPlatform.accessories.find(accessory => accessory.UUID === this.uniqueIdentifier);
         if (existingTestRoomAccessory) {
             this.HBPlatform.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
@@ -22,9 +25,6 @@ class VDPHomeContainer {
             this.HBPlatform.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
         }
         this.attach(this.accessory, '', '');
-        this._accessories = [];
-        this._containers = [];
-        this._hbPlatform = platform;
     }
     get observers() { return this._observers; }
     set observers(observers) { this._observers = observers; }

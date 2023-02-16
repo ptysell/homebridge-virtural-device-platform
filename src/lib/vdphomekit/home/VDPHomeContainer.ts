@@ -50,6 +50,12 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 		this._name = containerName;
 		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
 
+
+		this._accessories = [];
+		this._containers = [];
+
+		this._hbPlatform = platform;
+
 		const existingTestRoomAccessory = this.HBPlatform.accessories.find(accessory => accessory.UUID === this.uniqueIdentifier);
 
         if (existingTestRoomAccessory) {
@@ -65,10 +71,6 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 		this.attach(this.accessory, '', '');
 
-		this._accessories = [];
-		this._containers = [];
-
-		this._hbPlatform = platform;
 
 	}
 
