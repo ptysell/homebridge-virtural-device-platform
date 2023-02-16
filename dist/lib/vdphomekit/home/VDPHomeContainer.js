@@ -25,6 +25,7 @@ class VDPHomeContainer {
             this.HBPlatform.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
         }
         this.attach(this.accessory, this.accessory.name, '<Constructor>');
+        this.accessory.attach(this, this.name, 'asdf');
     }
     get observers() { return this._observers; }
     set observers(observers) { this._observers = observers; }
@@ -48,6 +49,7 @@ class VDPHomeContainer {
         }
         this.accessories.push(accessory);
         this.attach(accessory, accessory.name, '<addAccessory>');
+        accessory.attach(this, 'aqwer', '5rgreg');
     }
     removeAccessory(accessory) {
         const accessoryIndex = this.accessories.indexOf(accessory);
@@ -64,6 +66,7 @@ class VDPHomeContainer {
         }
         this.containers.push(container);
         this.attach(container, container.name, '<addContainer>');
+        container.attach(this, this.name, '<addContainer>');
     }
     removeContainer(container) {
         const containerIndex = this.containers.indexOf(container);
@@ -89,6 +92,7 @@ class VDPHomeContainer {
         this.observers.splice(observerIndex, 1);
     }
     notify(key, message) {
+        this.HBPlatform.log.warn('[VDPHomeContainer](' + this.name + ') notifying observers....');
         for (const observer of this.observers) {
             observer.update(this, key, message);
         }

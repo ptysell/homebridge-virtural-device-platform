@@ -70,6 +70,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 
 		this.attach(this.accessory, this.accessory.name, '<Constructor>');
+		this.accessory.attach(this, this.name, 'asdf')
 
 
 	}
@@ -84,7 +85,8 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         }
 
         this.accessories.push(accessory);
-		this.attach(accessory, accessory.name, '<addAccessory>')
+		this.attach(accessory, accessory.name, '<addAccessory>');
+		accessory.attach(this, 'aqwer', '5rgreg');
 	
 	}
 
@@ -108,7 +110,8 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         }
 		
         this.containers.push(container);
-		this.attach(container, container.name, '<addContainer>')
+		this.attach(container, container.name, '<addContainer>');
+		container.attach(this, this.name, '<addContainer>');
 	
 	}
 
@@ -125,7 +128,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	}
 
 	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
-		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '...' )
+		this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '...' );
         const isExist = this.observers.includes(observer);
         if (isExist) {
 			throw new Error('attach error');
@@ -143,6 +146,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
     }
 
     public notify( key?: string, message?: string ): void {
+		this.HBPlatform.log.warn('[VDPHomeContainer](' + this.name + ') notifying observers....' )
         for (const observer of this.observers) {
             observer.update(this, key, message);
         }

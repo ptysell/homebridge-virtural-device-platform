@@ -102,6 +102,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
     }
 
     public notify( key?: string, message?: string ): void {
+        this.HBPlatform.log.warn('[VDPAccessory](' + this.name + ') notifying observers....' )
         for (const observer of this.observers) {
             observer.update(this, key, message);
         }

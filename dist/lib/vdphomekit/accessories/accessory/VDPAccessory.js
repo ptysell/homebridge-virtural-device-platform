@@ -57,6 +57,7 @@ class VDPAccessory {
         this.observers.splice(observerIndex, 1);
     }
     notify(key, message) {
+        this.HBPlatform.log.warn('[VDPAccessory](' + this.name + ') notifying observers....');
         for (const observer of this.observers) {
             observer.update(this, key, message);
         }
