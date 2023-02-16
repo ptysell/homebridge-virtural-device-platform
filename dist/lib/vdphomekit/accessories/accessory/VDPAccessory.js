@@ -43,6 +43,7 @@ class VDPAccessory {
     get accessoryCharacteristics() { return this._accessoryCharacteristics; }
     set accessoryCharacteristics(accessoryCharacteristics) { this._accessoryCharacteristics = accessoryCharacteristics; }
     attach(observer, key, message) {
+        this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to ACCESSORY ' + this.name + '...');
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;

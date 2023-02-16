@@ -77,7 +77,7 @@ class VDPHomeContainer {
         this.detach(container, '', '');
     }
     attach(observer, key, message) {
-        this.HBPlatform.log.warn('Attaching ' + key + ' to Container ' + this.name + '...');
+        this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to Container ' + this.name + '...');
         const isExist = this.observers.includes(observer);
         if (isExist) {
             throw new Error('attach error');

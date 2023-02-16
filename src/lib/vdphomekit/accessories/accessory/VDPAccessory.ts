@@ -85,6 +85,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
     }
     
     public attach ( observer: VDPObserver, key?: string, message?: string ): void {
+        this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to ACCESSORY ' + this.name + '...' );
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
