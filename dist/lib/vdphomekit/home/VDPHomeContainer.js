@@ -92,7 +92,7 @@ class VDPHomeContainer {
         this.observers.splice(observerIndex, 1);
     }
     notify(key, message) {
-        this.HBPlatform.log.warn('[VDPHomeContainer](' + this.name + ') notifying observers....');
+        this.HBPlatform.log.warn('[VDPHomeContainer](' + this.name + ') notifying observers....(' + key + '|' + message + ')');
         for (const observer of this.observers) {
             observer.update(this, key, message);
         }
