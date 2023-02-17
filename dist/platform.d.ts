@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
-import { VDPRoom } from './lib/vdphomekit/home/VDPRoom';
+import { VDPRoom } from './lib/vdphomekit/home/VDPContainerRoom';
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should

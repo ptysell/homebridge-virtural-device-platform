@@ -1,6 +1,6 @@
 import { VDPObservable } from "../system/observable";
-import { VDPHomeContainer } from "./VDPHomeContainer";
+import { VDPHomeContainer } from "./VDPContainer";
 export declare class VDPRoom extends VDPHomeContainer {
     update(observable: VDPObservable, key?: string, message?: string): void;
 }
-//# sourceMappingURL=VDPRoom.d.ts.map
+//# sourceMappingURL=VDPContainerRoom.d.ts.map

@@ -42,25 +42,23 @@ class VDPAccessory {
     set accessoryInformation(characteristic) { this._accessoryInformation = characteristic; }
     get accessoryCharacteristics() { return this._accessoryCharacteristics; }
     set accessoryCharacteristics(accessoryCharacteristics) { this._accessoryCharacteristics = accessoryCharacteristics; }
-    attach(observer, key, message) {
-        this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to ACCESSORY ' + this.name + '...');
+    attach(observer) {
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
         }
         this.observers.push(observer);
     }
-    detach(observer, key, message) {
+    detach(observer) {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return;
         }
         this.observers.splice(observerIndex, 1);
     }
-    notify(key, message) {
-        this.HBPlatform.log.warn('[VDPAccessory](' + this.name + ') notifying observers....');
+    notify(sender, action, state, message) {
         for (const observer of this.observers) {
-            observer.update(this, key, message);
+            observer.update(this, sender, action, state, message);
         }
     }
 }

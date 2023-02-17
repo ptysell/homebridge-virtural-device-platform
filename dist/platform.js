@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
 const VDPAccessory_1 = require("./lib/vdphomekit/accessories/accessory/VDPAccessory");
-const VDPRoom_1 = require("./lib/vdphomekit/home/VDPRoom");
+const VDPContainerRoom_1 = require("./lib/vdphomekit/home/VDPContainerRoom");
 const VDPAccessorySwitch_1 = require("./lib/accessories/VDPAccessorySwitch");
+const VDPContainerArea_1 = require("./lib/vdphomekit/home/VDPContainerArea");
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -168,7 +169,7 @@ class VDPHomebridgePlatform {
         // loop over the discovered devices and register each one if it has not already been registered
         for (const room of exampleDevices) {
             this.log.error('Iterating ROOOM: ' + room.roomName);
-            const TestRoom = new VDPRoom_1.VDPRoom(room.roomName, this);
+            const TestRoom = new VDPContainerRoom_1.VDPRoom(room.roomName, this);
             for (const TestRoomAccessory of room.roomAccessories) {
                 this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
                 const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID);
@@ -185,6 +186,28 @@ class VDPHomebridgePlatform {
                     this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
                 }
                 TestRoom.addAccessory(TestRoomAccessory2);
+            }
+            for (const area of room.roomAreas) {
+                this.log.error('Iterating AREA: ' + area.areaName);
+                const TestArea = new VDPContainerArea_1.VDPArea(area.areaName, this);
+                TestRoom.addContainer(TestArea);
+                for (const TestAreaAccessory of area.areaAccessories) {
+                    this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
+                    const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID);
+                    let TestAreaAccessory2;
+                    const existingTestAreaAccessory = this.accessories.find(accessory => accessory.UUID === TestAreaAccessoryUUID);
+                    if (existingTestAreaAccessory) {
+                        this.log.debug('Restoring ROOM AREA form Cache:' + existingTestAreaAccessory.displayName);
+                        TestAreaAccessory2 = new VDPAccessorySwitch_1.VDPAccessorySwitch(this, existingTestAreaAccessory);
+                    }
+                    else {
+                        this.log.debug('Adding New AREA ACCESSORY:' + TestAreaAccessory.accessoryName);
+                        const accessory = new this.api.platformAccessory(TestAreaAccessory.accessoryName, TestAreaAccessoryUUID);
+                        TestAreaAccessory2 = new VDPAccessorySwitch_1.VDPAccessorySwitch(this, accessory);
+                        this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
+                    }
+                    TestArea.addAccessory(TestAreaAccessory2);
+                }
             }
         }
     }

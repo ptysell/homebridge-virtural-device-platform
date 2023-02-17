@@ -50,7 +50,6 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 		this._name = containerName;
 		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
 
-
 		this._accessories = [];
 		this._containers = [];
 
@@ -59,46 +58,42 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 		const existingTestRoomAccessory = this.HBPlatform.accessories.find(accessory => accessory.UUID === this.uniqueIdentifier);
 
         if (existingTestRoomAccessory) {
-        	this.HBPlatform.log.debug('Restoring ROOM ACCESSORY form Cache:' + existingTestRoomAccessory.displayName);
             this._accessory = new VDPAccessorySwitch(this.HBPlatform, existingTestRoomAccessory);
 	    } else {
-            this.HBPlatform.log.debug('Adding New ROOM ACCESSORY:' + this.name);
             const accessory = new this.HBPlatform.api.platformAccessory(this.name, this.uniqueIdentifier);
             this._accessory = new VDPAccessorySwitch(this.HBPlatform, accessory);
             this.HBPlatform.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
         }
 
 
-		this.attach(this.accessory, this.accessory.name, '<Constructor>');
-		this.accessory.attach(this, this.name, 'asdf')
+		this.attach(this.accessory);
+		this.accessory.attach(this)
 
 
 	}
 
 	public addAccessory(accessory: VDPAccessory) {
 
-		this.HBPlatform.log.warn('Adding ACCESSORY to ROOM |' + accessory.name + ' | ' + this.name)
-
 		const isExist = this.accessories.includes(accessory);
         if (isExist) {
-            return;
+            throw new Error('');
         }
 
         this.accessories.push(accessory);
-		this.attach(accessory, accessory.name, '<addAccessory>');
-		accessory.attach(this, 'aqwer', '5rgreg');
-	
+		this.attach(accessory);
+		accessory.attach(this);
+
 	}
 
 	public removeAccessory(accessory: VDPAccessory) {
 
 		const accessoryIndex = this.accessories.indexOf(accessory);
         if (accessoryIndex === -1) {
-            return;
+            throw new Error('');
         }
 
         this.accessories.splice(accessoryIndex, 1);
-		this.detach(accessory, '', '')
+		this.detach(accessory)
 	
 	}
 
@@ -106,12 +101,12 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 		const isExist = this.containers.includes(container);
         if (isExist) {
-            return;
+            throw new Error('');
         }
 		
         this.containers.push(container);
-		this.attach(container, container.name, '<addContainer>');
-		container.attach(this, this.name, '<addContainer>');
+		this.attach(container);
+		container.attach(this);
 	
 	}
 
@@ -119,16 +114,15 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 		const containerIndex = this.containers.indexOf(container);
         if (containerIndex === -1) {
-            return;
+            throw new Error('');
         }
 
         this.accessories.splice(containerIndex, 1);
-		this.detach(container, '', '')
+		this.detach(container)
 	
 	}
 
-	public attach ( observer: VDPObserver, key?: string, message?: string ): void {
-		this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to Container ' + this.name + '...' );
+	public attach (observer: VDPObserver): void {
         const isExist = this.observers.includes(observer);
         if (isExist) {
 			throw new Error('attach error');
@@ -136,22 +130,21 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         this.observers.push(observer);
     }
 
-    public detach ( observer: VDPObserver, key?: string, message?: string ): void {
+    public detach (observer: VDPObserver): void {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
-            return;
+            throw new Error('');
         }
 
         this.observers.splice(observerIndex, 1);
     }
 
-    public notify( key?: string, message?: string ): void {
-		this.HBPlatform.log.warn('[VDPHomeContainer](' + this.name + ') notifying observers....(' + key + '|' + message + ')' )
+    public notify( sender?: string, action?: string, state?: string, message?: string ): void {
         for (const observer of this.observers) {
-            observer.update(this, key, message);
+            observer.update(this, sender, action, state, message);
         }
     }
 
-    abstract update(observable: VDPObservable, key?: string, message?: string): void;
+    abstract update(observable: VDPObservable, sender?: string, action?: string, state?: string, message?: string): void;
 }
 

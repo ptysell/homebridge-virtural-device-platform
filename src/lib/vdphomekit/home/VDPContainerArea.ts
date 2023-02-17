@@ -1,8 +1,8 @@
 import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
 import { VDPObservable } from "../system/observable";
-import { VDPHomeContainer } from "./VDPHomeContainer";
+import { VDPHomeContainer } from "./VDPContainer";
 
-export class VDPRoom extends VDPHomeContainer{
+export class VDPArea extends VDPHomeContainer{
 
 
  public update(observable: VDPObservable, key?: string, message?: string ): void {

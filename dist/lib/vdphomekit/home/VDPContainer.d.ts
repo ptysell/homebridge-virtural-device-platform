@@ -31,9 +31,9 @@ export declare abstract class VDPHomeContainer implements VDPObserver, VDPObserv
     removeAccessory(accessory: VDPAccessory): void;
     addContainer(container: VDPHomeContainer): void;
     removeContainer(container: VDPHomeContainer): void;
-    attach(observer: VDPObserver, key?: string, message?: string): void;
-    detach(observer: VDPObserver, key?: string, message?: string): void;
-    notify(key?: string, message?: string): void;
-    abstract update(observable: VDPObservable, key?: string, message?: string): void;
+    attach(observer: VDPObserver): void;
+    detach(observer: VDPObserver): void;
+    notify(sender?: string, action?: string, state?: string, message?: string): void;
+    abstract update(observable: VDPObservable, sender?: string, action?: string, state?: string, message?: string): void;
 }
-//# sourceMappingURL=VDPHomeContainer.d.ts.map
+//# sourceMappingURL=VDPContainer.d.ts.map

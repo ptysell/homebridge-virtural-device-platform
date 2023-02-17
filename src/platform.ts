@@ -2,14 +2,15 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { accessoryType, VDPPlatformAccessory } from './platformAccessory';
-import { VDPAreaAccessory } from './platformAccessoryArea';
 import { VDPRoomAccessory } from './platformAccessoryRoom';
 import { VDPAccessoryOutlet } from './lib/accessories/VDPAccessoryOutlet';
 import { VDPAccessory } from './lib/vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObserver } from './lib/vdphomekit/system/observer';
 import { VDPObservable } from './lib/vdphomekit/system/observable';
-import { VDPRoom } from './lib/vdphomekit/home/VDPRoom';
+import { VDPRoom } from './lib/vdphomekit/home/VDPContainerRoom';
 import { VDPAccessorySwitch } from './lib/accessories/VDPAccessorySwitch';
+import { VDPArea } from './lib/vdphomekit/home/VDPContainerArea';
+import { VDPHomeContainer } from './lib/vdphomekit/home/VDPContainer';
 
 /**
  * HomebridgePlatform
@@ -199,9 +200,7 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
                 this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
 
-
                  const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID);
-
 
                 let TestRoomAccessory2: VDPAccessory;
                 const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessoryUUID);
@@ -221,6 +220,45 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
 
             }
+
+        for (const area of room.roomAreas) {
+
+            this.log.error('Iterating AREA: ' + area.areaName);
+
+            const TestArea = new VDPArea(area.areaName, this);
+
+            TestRoom.addContainer(TestArea);
+
+            for (const TestAreaAccessory of area.areaAccessories) {
+                this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
+
+                const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID);
+
+                let TestAreaAccessory2: VDPAccessory;
+                const existingTestAreaAccessory = this.accessories.find(accessory => accessory.UUID === TestAreaAccessoryUUID);
+
+                if (existingTestAreaAccessory) {
+                    this.log.debug('Restoring ROOM AREA form Cache:' + existingTestAreaAccessory.displayName);
+                    TestAreaAccessory2 = new VDPAccessorySwitch(this, existingTestAreaAccessory);
+
+                } else {
+                    this.log.debug('Adding New AREA ACCESSORY:' + TestAreaAccessory.accessoryName);
+                    const accessory = new this.api.platformAccessory(TestAreaAccessory.accessoryName, TestAreaAccessoryUUID);
+                    TestAreaAccessory2 = new VDPAccessorySwitch(this, accessory);
+                    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+
+                }
+
+                TestArea.addAccessory(TestAreaAccessory2)
+
+
+            }
+
+
+
+
+
+        }
 
         }
 

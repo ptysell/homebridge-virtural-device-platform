@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPRoom = void 0;
 const VDPAccessory_1 = require("../accessories/accessory/VDPAccessory");
-const VDPHomeContainer_1 = require("./VDPHomeContainer");
-class VDPRoom extends VDPHomeContainer_1.VDPHomeContainer {
+const VDPContainer_1 = require("./VDPContainer");
+class VDPRoom extends VDPContainer_1.VDPHomeContainer {
     update(observable, key, message) {
         this.HBPlatform.log.error('----------------');
-        if (observable instanceof VDPHomeContainer_1.VDPHomeContainer) {
+        if (observable instanceof VDPContainer_1.VDPHomeContainer) {
             this.HBPlatform.log.error('[VDPContainerRoom](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
         else if (observable instanceof VDPAccessory_1.VDPAccessory) {
@@ -17,4 +17,4 @@ class VDPRoom extends VDPHomeContainer_1.VDPHomeContainer {
     }
 }
 exports.VDPRoom = VDPRoom;
-//# sourceMappingURL=VDPRoom.js.map
+//# sourceMappingURL=VDPContainerRoom.js.map

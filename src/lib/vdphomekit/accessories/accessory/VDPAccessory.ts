@@ -84,8 +84,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
     }
     
-    public attach ( observer: VDPObserver, key?: string, message?: string ): void {
-        this.HBPlatform.log.warn('(' + message + ') Attaching ' + key + ' to ACCESSORY ' + this.name + '...' );
+    public attach (observer: VDPObserver): void {
         const isExist = this.observers.includes(observer);
         if (isExist) {
             return;
@@ -93,7 +92,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         this.observers.push(observer);
     }
 
-    public detach ( observer: VDPObserver, key?: string, message?: string ): void {
+    public detach (observer: VDPObserver): void {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return;
@@ -102,13 +101,12 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
         this.observers.splice(observerIndex, 1);
     }
 
-    public notify( key?: string, message?: string ): void {
-        this.HBPlatform.log.warn('[VDPAccessory](' + this.name + ') notifying observers....' )
+    public notify( sender?: string, action?: string, state?: string, message?: string ): void {
         for (const observer of this.observers) {
-            observer.update(this, key, message);
+            observer.update(this, sender, action, state, message);
         }
     }
 
-    abstract update(observable: VDPObservable, key?: string, message?: string): void;
+    abstract update(observable: VDPObservable, sender?: string, action?: string, state?: string, message?: string): void;
 
 }
