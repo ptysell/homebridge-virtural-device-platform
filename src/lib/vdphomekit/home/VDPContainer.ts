@@ -83,6 +83,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
         this.accessories.push(accessory);
 		this.attach(accessory);
+		accessory.attach(this);
 
 	}
 

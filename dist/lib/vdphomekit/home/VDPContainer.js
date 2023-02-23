@@ -48,6 +48,7 @@ class VDPHomeContainer {
         }
         this.accessories.push(accessory);
         this.attach(accessory);
+        accessory.attach(this);
     }
     removeAccessory(accessory) {
         const accessoryIndex = this.accessories.indexOf(accessory);
