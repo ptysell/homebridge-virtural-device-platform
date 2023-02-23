@@ -4,11 +4,12 @@ exports.VDPHomeContainer = void 0;
 const settings_1 = require("../../../settings");
 const VDPAccessorySwitch_1 = require("../../accessories/VDPAccessorySwitch");
 class VDPHomeContainer {
-    constructor(containerName, platform) {
-        this.containerName = containerName;
+    constructor(withName, platform) {
+        this.withName = withName;
         this.platform = platform;
         this._observers = [];
-        this._name = containerName;
+        this._sender = '';
+        this._name = withName;
         this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
         this._accessories = [];
         this._containers = [];
@@ -23,10 +24,11 @@ class VDPHomeContainer {
             this.HBPlatform.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
         }
         this.attach(this.accessory);
-        this.accessory.attach(this);
     }
     get observers() { return this._observers; }
     set observers(observers) { this._observers = observers; }
+    get sender() { return this._sender; }
+    set sender(sender) { this._sender = sender; }
     get name() { return this._name; }
     set name(name) { this._name = name; }
     get uniqueIdentifier() { return this._uniqueIdentifier; }
@@ -46,7 +48,6 @@ class VDPHomeContainer {
         }
         this.accessories.push(accessory);
         this.attach(accessory);
-        accessory.attach(this);
     }
     removeAccessory(accessory) {
         const accessoryIndex = this.accessories.indexOf(accessory);
@@ -63,7 +64,6 @@ class VDPHomeContainer {
         }
         this.containers.push(container);
         this.attach(container);
-        container.attach(this);
     }
     removeContainer(container) {
         const containerIndex = this.containers.indexOf(container);
@@ -87,9 +87,9 @@ class VDPHomeContainer {
         }
         this.observers.splice(observerIndex, 1);
     }
-    notify(sender, action, state, message) {
+    notify(action, state, message) {
         for (const observer of this.observers) {
-            observer.update(this, sender, action, state, message);
+            observer.update(this, this.sender, action, state, message);
         }
     }
 }

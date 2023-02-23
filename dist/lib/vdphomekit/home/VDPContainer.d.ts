@@ -3,11 +3,14 @@ import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
 import { VDPObservable } from "../system/observable";
 import { VDPObserver } from "../system/observer";
 export declare abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
-    protected readonly containerName: string;
+    protected readonly withName: string;
     protected readonly platform: VDPHomebridgePlatform;
     private _observers;
     protected get observers(): VDPObserver[];
     protected set observers(observers: VDPObserver[]);
+    protected _sender: string;
+    get sender(): string;
+    protected set sender(sender: string);
     private _name;
     get name(): string;
     protected set name(name: string);
@@ -26,14 +29,14 @@ export declare abstract class VDPHomeContainer implements VDPObserver, VDPObserv
     private _hbPlatform;
     get HBPlatform(): VDPHomebridgePlatform;
     protected set HBPlatform(platform: VDPHomebridgePlatform);
-    constructor(containerName: string, platform: VDPHomebridgePlatform);
+    constructor(withName: string, platform: VDPHomebridgePlatform);
     addAccessory(accessory: VDPAccessory): void;
     removeAccessory(accessory: VDPAccessory): void;
     addContainer(container: VDPHomeContainer): void;
     removeContainer(container: VDPHomeContainer): void;
     attach(observer: VDPObserver): void;
     detach(observer: VDPObserver): void;
-    notify(sender?: string, action?: string, state?: string, message?: string): void;
-    abstract update(observable: VDPObservable, sender?: string, action?: string, state?: string, message?: string): void;
+    notify(action: string, state: string, message: string): void;
+    abstract update(observable: VDPObservable, sender: string, action: string, state: string, message: string): void;
 }
 //# sourceMappingURL=VDPContainer.d.ts.map

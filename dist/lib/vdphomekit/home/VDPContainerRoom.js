@@ -1,19 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VDPRoom = void 0;
-const VDPAccessory_1 = require("../accessories/accessory/VDPAccessory");
 const VDPContainer_1 = require("./VDPContainer");
 class VDPRoom extends VDPContainer_1.VDPHomeContainer {
-    update(observable, key, message) {
+    constructor(withName, platform) {
+        super(withName, platform);
+        this.withName = withName;
+        this.platform = platform;
+        this.sender = 'VDPRoom';
+    }
+    update(observable, sender, action, state, message) {
         this.HBPlatform.log.error('----------------');
-        if (observable instanceof VDPContainer_1.VDPHomeContainer) {
-            this.HBPlatform.log.error('[VDPContainerRoom](Observer.Update)|' + key + '|' + message + '|' + this.name);
-        }
-        else if (observable instanceof VDPAccessory_1.VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessory](Observer.Update)|' + key + '|' + message + '|' + this.name);
-        }
-        this.notify(this.name, '<NOTIFY TEST>');
-        this.HBPlatform.log.error('[' + observable.constructor.name + '](Observer.Update)|' + key + '|' + message + '|' + this.name);
+        this.HBPlatform.log.error('[' + sender + '](Observer.Update)|' + action + '|' + state + '|' + message);
+        // if (observable instanceof VDPHomeContainer) {
+        //     this.HBPlatform.log.error('[VDPContainerRoom](Observer.Update)|' + action + '|' + state + '|' + message);
+        // } else if (observable instanceof VDPAccessory) {
+        //     this.HBPlatform.log.error('[VDPAccessory](Observer.Update)|' + key + '|' + message + '|' + this.name);
+        // }
+        this.notify('TEST ACTION', 'TEST STATE', 'TEST MESSAGE');
     }
 }
 exports.VDPRoom = VDPRoom;

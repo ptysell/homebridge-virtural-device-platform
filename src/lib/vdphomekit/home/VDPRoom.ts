@@ -2,9 +2,8 @@
 // import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
 // import { VDPObservable } from "../system/observable";
 // import { VDPObserver } from "../system/observer";
-// import { VDPRoom } from "./VDPRoom";
 
-// export class VDPZone implements VDPObserver, VDPObservable {
+// export class VDPRoom implements VDPObserver, VDPObservable {
 
 // 	private _name: string;
 // 	public get name(): string { return this._name; }
@@ -14,13 +13,17 @@
 // 	public get uniqueIdentifier(): string { return this._uniqueIdentifier; }
 // 	protected set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier; }
 
-// 	private _rooms: VDPRoom[];
-// 	public get rooms(): VDPRoom[] { return this._rooms; }
-// 	protected set rooms(rooms: VDPRoom[]) { this._rooms = rooms; }
+// 	private _areas: VDPArea[];
+// 	public get areas(): VDPRoom[] { return this._areas; }
+// 	protected set areas(areas: VDPRoom[]) { this._areas = areas; }
 
 // 	private _accessory: VDPAccessory;
 // 	public get accessory(): VDPAccessory { return this._accessory; }
 // 	protected set accessory(accessory: VDPAccessory) { this._accessory = accessory; }
+
+// 	private _accessories: VDPAccessory[];
+// 	public get accessories(): VDPAccessory[] { return this._accessories; }
+// 	protected set accessories(accessories: VDPAccessory[]) { this._accessories = accessories; }
 
 // 	private _state: boolean;
 // 	public get state(): boolean { return this._state; }
@@ -39,9 +42,10 @@
 
 // 		this._name = withName;
 // 		this._uniqueIdentifier = 'NOT IMPLEMENTED';
-// 		this._rooms = [];
+// 		this._areas = [];
 // 		this._accessory = new VDPAccessorySwitch('', '');
 // 		this.attach(this._accessory);
+// 		this._accessories = [];
 // 		this._state = false; //this.accessory.accessoryCharacteristics.
 // 		this._observers = [];
 

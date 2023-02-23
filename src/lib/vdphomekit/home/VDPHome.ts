@@ -1,3 +1,40 @@
+export class VDPHome {
+
+	private _name: string;
+	public get name():string { return this._name; }
+	private set name(name: string) { this._name = name; }
+
+	private _uniqueIdentifier: string;
+	public get uniqueIdentifier(): string { return this._uniqueIdentifier; }
+	private set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier; }
+
+	constructor(
+		
+		withName: string,
+
+	) {
+
+		this._name = withName;
+		this._uniqueIdentifier = 'NOT IMPLEMENTED';
+
+	}
+
+	public updateName(withName: string) {
+		try {
+
+		} catch (error) {
+			
+		} finally {
+			this.updateNameCompletionHandler();
+		}
+	}
+
+	private updateNameCompletionHandler(){}
+	
+
+
+}
+
 // import { Logger } from 'homebridge';
 // import { VDPAccessory } from '../accessory/VDPAccessory';
 // import { VDPRoom } from './VDPRoom';

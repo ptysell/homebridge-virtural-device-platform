@@ -1,4 +1,27 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.VDPHome = void 0;
+class VDPHome {
+    constructor(withName) {
+        this._name = withName;
+        this._uniqueIdentifier = 'NOT IMPLEMENTED';
+    }
+    get name() { return this._name; }
+    set name(name) { this._name = name; }
+    get uniqueIdentifier() { return this._uniqueIdentifier; }
+    set uniqueIdentifier(uniqueIdentifier) { this._uniqueIdentifier = uniqueIdentifier; }
+    updateName(withName) {
+        try {
+        }
+        catch (error) {
+        }
+        finally {
+            this.updateNameCompletionHandler();
+        }
+    }
+    updateNameCompletionHandler() { }
+}
+exports.VDPHome = VDPHome;
 // import { Logger } from 'homebridge';
 // import { VDPAccessory } from '../accessory/VDPAccessory';
 // import { VDPRoom } from './VDPRoom';

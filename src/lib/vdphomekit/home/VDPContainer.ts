@@ -15,6 +15,10 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	protected get observers(): VDPObserver[] { return this._observers; }
 	protected set observers(observers: VDPObserver[]) { this._observers = observers} 
 
+	protected _sender: string;
+	public get sender(): string { return this._sender; }
+	protected set sender(sender: string) { this._sender = sender; }
+
     private _name: string;
 	public get name(): string { return this._name; }
 	protected set name(name: string) { this._name = name; }
@@ -41,13 +45,14 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 
 	constructor(
-		protected readonly containerName: string,
+		protected readonly withName: string,
         protected readonly platform: VDPHomebridgePlatform,
 	){
 
 		this._observers = [];
+		this._sender = '';
 
-		this._name = containerName;
+		this._name = withName;
 		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
 
 		this._accessories = [];
@@ -65,10 +70,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
             this.HBPlatform.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
         }
 
-
 		this.attach(this.accessory);
-		this.accessory.attach(this)
-
 
 	}
 
@@ -81,7 +83,6 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
         this.accessories.push(accessory);
 		this.attach(accessory);
-		accessory.attach(this);
 
 	}
 
@@ -106,7 +107,6 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 		
         this.containers.push(container);
 		this.attach(container);
-		container.attach(this);
 	
 	}
 
@@ -139,12 +139,12 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         this.observers.splice(observerIndex, 1);
     }
 
-    public notify( sender?: string, action?: string, state?: string, message?: string ): void {
+    public notify(action: string, state: string, message: string ): void {
         for (const observer of this.observers) {
-            observer.update(this, sender, action, state, message);
+            observer.update(this, this.sender, action, state, message);
         }
     }
 
-    abstract update(observable: VDPObservable, sender?: string, action?: string, state?: string, message?: string): void;
+    abstract update(observable: VDPObservable, sender: string, action: string, state: string, message: string): void;
 }
 
