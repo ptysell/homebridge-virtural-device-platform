@@ -32,7 +32,8 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
     setOn(value) {
         this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value);
         this.On = value;
-        this.notify(this.name, '<setOn>');
+        const tstOn = value;
+        this.notify('VDPAccessorySwitch', '<setOn>', tstOn, "TEST");
     }
     update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {

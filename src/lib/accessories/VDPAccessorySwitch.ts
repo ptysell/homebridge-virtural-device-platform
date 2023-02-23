@@ -60,7 +60,8 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
     setOn(value: CharacteristicValue) {
         this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value)
         this.On = value as boolean;
-        this.notify(this.name , '<setOn>');
+        const tstOn = value as string;
+        this.notify('VDPAccessorySwitch','<setOn>', tstOn, "TEST");
     }
 
     public update(observable: VDPObservable, key?: string, message?: string ): void {

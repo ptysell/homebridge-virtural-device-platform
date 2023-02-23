@@ -12,7 +12,7 @@ class VDPArea extends VDPContainer_1.VDPHomeContainer {
         else if (observable instanceof VDPAccessory_1.VDPAccessory) {
             this.HBPlatform.log.error('[VDPAccessory](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
-        this.notify(this.name, '<NOTIFY TEST>');
+        this.notify('TEST ACTION', 'TEST STATE', 'TEST MESSAGE');
         this.HBPlatform.log.error('[' + observable.constructor.name + '](Observer.Update)|' + key + '|' + message + '|' + this.name);
     }
 }
