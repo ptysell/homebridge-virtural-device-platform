@@ -28,7 +28,6 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
     public Rooms: VDPRoom[] = [];
 
 
-
     constructor(
     public readonly log: Logger,
     public readonly config: PlatformConfig,
@@ -71,6 +70,21 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
    * must not be registered again to prevent "duplicate UUID" errors.
    */
     discoverDevices() {
+
+        for (const accessory of this.accessories) {
+            this.log.warn('Purging ' + accessory.displayName + 'from the Platform');
+
+            this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+
+        }
+
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--SUCCESS!!!--');
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--------------');
 
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
@@ -190,17 +204,18 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
         // loop over the discovered devices and register each one if it has not already been registered
 
+
         for (const room of exampleDevices) {
 
-            this.log.error('Iterating ROOOM: ' + room.roomName);
+           // this.log.error('Iterating ROOOM: ' + room.roomName);
 
             const TestRoom = new VDPRoom(room.roomName, this)
 
             for (const TestRoomAccessory of room.roomAccessories) {
 
-                this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
+               // this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
 
-                 const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID);
+                 const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID + Math.random());
 
                 let TestRoomAccessory2: VDPAccessory;
                 const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessoryUUID);
@@ -223,16 +238,16 @@ export class VDPHomebridgePlatform implements DynamicPlatformPlugin, VDPObserver
 
         for (const area of room.roomAreas) {
 
-            this.log.error('Iterating AREA: ' + area.areaName);
+            //this.log.error('Iterating AREA: ' + area.areaName);
 
             const TestArea = new VDPArea(area.areaName, this);
 
             TestRoom.addContainer(TestArea);
 
             for (const TestAreaAccessory of area.areaAccessories) {
-                this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
+                //this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
 
-                const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID);
+                const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID + Math.random());
 
                 let TestAreaAccessory2: VDPAccessory;
                 const existingTestAreaAccessory = this.accessories.find(accessory => accessory.UUID === TestAreaAccessoryUUID);

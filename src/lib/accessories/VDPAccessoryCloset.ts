@@ -4,17 +4,18 @@ import { DEVICE_MANUFACTURER } from '../../settings';
 import { IVDPAccessoryCharacteristics, VDPAccessory } from '../vdphomekit/accessories/accessory/VDPAccessory';
 import { VDPObservable } from '../vdphomekit/system/observable';
 
-export const DEVICE_MODEL: string = 'VDP Outlet Accessory';
+export const DEVICE_MODEL: string = 'VDP Switch Accessory';
 
-export interface VDPAccessoryCharacteristicsOutlet extends IVDPAccessoryCharacteristics {
+export interface VDPAccessoryCharacteristicsSwitch extends IVDPAccessoryCharacteristics {
     On: boolean;
-    getOn(): Promise<CharacteristicValue>;
+    getOn(): CharacteristicValue;
+    //getOn(): Promise<CharacteristicValue>;
     setOn(value: CharacteristicValue): void;
-    Name?: string;
+    name: string;
 }
 
-export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryCharacteristicsOutlet {
-        
+export class VDPAccessoryCloset extends VDPAccessory implements VDPAccessoryCharacteristicsSwitch {
+    
     protected _hbPlatformAccessoryService: Service;
 
     public On: boolean;
@@ -28,9 +29,9 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
         super(platform, accessory);
 
-        this.name = this.name + ' Outlet';
-        this.accessoryClass = 'VDPAccessoryOutlet';
-        
+        this.name = this.name + ' Switch';
+        this.accessoryClass = 'VDPAccessorySwitch';
+
         this.accessoryInformation.Manufacturer = DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
@@ -41,8 +42,8 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
             .setCharacteristic(this.HBPlatform.Characteristic.SerialNumber, this.accessoryInformation.SerialNumber);
 
         this.On = false;
-        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Outlet) || 
-            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Outlet);
+        this._hbPlatformAccessoryService = this.HBPlatformAccessory.getService(this.HBPlatform.Service.Switch) || 
+            this.HBPlatformAccessory.addService(this.HBPlatform.Service.Switch);
 
         this.HBPlatformAccessoryService.setCharacteristic(this.platform.Characteristic.Name, this.name);
 
@@ -52,19 +53,22 @@ export class VDPAccessoryOutlet extends VDPAccessory implements VDPAccessoryChar
 
     }
 
-    async getOn(): Promise<CharacteristicValue> {
+    getOn(): CharacteristicValue { // Promise<CharacteristicValue> {
         return this.On;
     }
 
-    async setOn(value: CharacteristicValue) {
+    setOn(value: CharacteristicValue) {
+        this.HBPlatform.log.warn('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value)
         this.On = value as boolean;
-        this.notify('VDPAccessoryOutlet', 'setOn', this.On.toString(), 'N/A');
+        this.notify('VDPAccessorySwitch', 'setOn', this.On.toString(), 'N/A');
     }
 
     public update(observable: VDPObservable, key?: string, message?: string ): void {
         if (observable instanceof VDPAccessory) {
-            this.HBPlatform.log.error('[VDPAccessoryOutlet](Observer.Update)|' + key + '|' + message + '|' + this.name);
+            this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
         }
+        this.HBPlatform.log.error('[VDPAccessorySwitch](Observer.Update)|' + key + '|' + message + '|' + this.name);
+
     }
 
 }

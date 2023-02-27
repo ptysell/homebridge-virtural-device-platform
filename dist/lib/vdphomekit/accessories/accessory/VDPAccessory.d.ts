@@ -19,6 +19,9 @@ export declare abstract class VDPAccessory implements VDPObserver, VDPObservable
     get name(): string;
     protected set name(name: string);
     updateName(name: string): void;
+    private _accessoryClass;
+    get accessoryClass(): string;
+    protected set accessoryClass(value: string);
     private _uniqueIdentifier;
     get uniqueIdentifier(): string;
     protected set uniqueIdentifier(uniqueIdentifier: string);

@@ -1,4 +1,5 @@
 import { VDPHomebridgePlatform } from "../../../platform";
+import { VDPAccessorySwitch } from "../../accessories/VDPAccessorySwitch";
 import { VDPAccessory } from "../accessories/accessory/VDPAccessory";
 import { VDPObservable } from "../system/observable";
 import { VDPObserver } from "../system/observer";
@@ -18,8 +19,10 @@ export declare abstract class VDPHomeContainer implements VDPObserver, VDPObserv
     get uniqueIdentifier(): string;
     protected set uniqueIdentifier(uniqueIdentifier: string);
     private _accessory;
-    get accessory(): VDPAccessory;
-    protected set accessory(accessory: VDPAccessory);
+    get accessory(): VDPAccessorySwitch;
+    protected set accessory(accessory: VDPAccessorySwitch);
+    get accessoryState(): boolean;
+    set accessoryState(value: boolean);
     private _accessories;
     get accessories(): VDPAccessory[];
     protected set accessories(accessories: VDPAccessory[]);

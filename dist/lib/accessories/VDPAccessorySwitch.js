@@ -10,6 +10,7 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
         this.platform = platform;
         this.accessory = accessory;
         this.name = this.name + ' Switch';
+        this.accessoryClass = 'VDPAccessorySwitch';
         this.accessoryInformation.Manufacturer = settings_1.DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = exports.DEVICE_MODEL;
         this.accessoryInformation.SerialNumber = this.uniqueIdentifier;
@@ -26,14 +27,12 @@ class VDPAccessorySwitch extends VDPAccessory_1.VDPAccessory {
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
     }
     getOn() {
-        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<getOn> ', this.On);
         return this.On;
     }
     setOn(value) {
-        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value);
+        this.HBPlatform.log.warn('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value);
         this.On = value;
-        const tstOn = value;
-        this.notify('VDPAccessorySwitch', '<setOn>', tstOn, "TEST");
+        this.notify('VDPAccessorySwitch', 'setOn', this.On.toString(), 'N/A');
     }
     update(observable, key, message) {
         if (observable instanceof VDPAccessory_1.VDPAccessory) {

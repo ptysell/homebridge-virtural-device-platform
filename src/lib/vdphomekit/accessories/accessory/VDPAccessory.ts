@@ -25,6 +25,10 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
     protected set name(name: string) { this._name = name; }
     public updateName(name: string){ this._name = name; }
 
+    private _accessoryClass: string;
+    public get accessoryClass(): string { return this._accessoryClass; }
+    protected set accessoryClass(value: string) { this._accessoryClass = this.accessoryClass; }
+
     private _uniqueIdentifier: string;
     public get uniqueIdentifier(): string { return this._uniqueIdentifier; }
     protected set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier }
@@ -65,6 +69,7 @@ export abstract class VDPAccessory implements VDPObserver, VDPObservable {
 
         this._name = platformAccessory.displayName;
         this._uniqueIdentifier = platformAccessory.UUID;
+        this._accessoryClass = 'N/A';
 
         this._hbPlatform = platform;
         this._hbPlatformAccessory = platformAccessory;

@@ -11,6 +11,7 @@ class VDPHomeContainer {
         this._sender = '';
         this._name = withName;
         this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
+        //this._accessoryState = false;
         this._accessories = [];
         this._containers = [];
         this._hbPlatform = platform;
@@ -19,11 +20,13 @@ class VDPHomeContainer {
             this._accessory = new VDPAccessorySwitch_1.VDPAccessorySwitch(this.HBPlatform, existingTestRoomAccessory);
         }
         else {
+            this.platform.log.error('SOMETHING -------------');
             const accessory = new this.HBPlatform.api.platformAccessory(this.name, this.uniqueIdentifier);
             this._accessory = new VDPAccessorySwitch_1.VDPAccessorySwitch(this.HBPlatform, accessory);
             this.HBPlatform.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
         }
         this.attach(this.accessory);
+        this.accessory.attach(this);
     }
     get observers() { return this._observers; }
     set observers(observers) { this._observers = observers; }
@@ -35,6 +38,11 @@ class VDPHomeContainer {
     set uniqueIdentifier(uniqueIdentifier) { this._uniqueIdentifier = uniqueIdentifier; }
     get accessory() { return this._accessory; }
     set accessory(accessory) { this._accessory = accessory; }
+    //private _accessoryState: boolean;
+    //public get accessoryState(): boolean { return this._accessoryState; }
+    //protected set accessoryState(accessoryState: boolean) { this._accessoryState = accessoryState; }
+    get accessoryState() { return this.accessory.On; }
+    set accessoryState(value) { this.accessory.setOn(value); }
     get accessories() { return this._accessories; }
     set accessories(accessories) { this._accessories = accessories; }
     get containers() { return this._containers; }

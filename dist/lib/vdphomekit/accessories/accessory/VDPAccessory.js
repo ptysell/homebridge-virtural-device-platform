@@ -14,6 +14,7 @@ class VDPAccessory {
         this._observers = [];
         this._name = platformAccessory.displayName;
         this._uniqueIdentifier = platformAccessory.UUID;
+        this._accessoryClass = 'N/A';
         this._hbPlatform = platform;
         this._hbPlatformAccessory = platformAccessory;
         // this._hbPlatformAccessoryServices = undefined;
@@ -29,6 +30,8 @@ class VDPAccessory {
     get name() { return this._name; }
     set name(name) { this._name = name; }
     updateName(name) { this._name = name; }
+    get accessoryClass() { return this._accessoryClass; }
+    set accessoryClass(value) { this._accessoryClass = this.accessoryClass; }
     get uniqueIdentifier() { return this._uniqueIdentifier; }
     set uniqueIdentifier(uniqueIdentifier) { this._uniqueIdentifier = uniqueIdentifier; }
     get HBPlatform() { return this._hbPlatform; }

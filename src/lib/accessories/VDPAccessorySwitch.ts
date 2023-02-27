@@ -30,6 +30,7 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
         super(platform, accessory);
 
         this.name = this.name + ' Switch';
+        this.accessoryClass = 'VDPAccessorySwitch';
 
         this.accessoryInformation.Manufacturer = DEVICE_MANUFACTURER;
         this.accessoryInformation.Model = DEVICE_MODEL;
@@ -53,15 +54,13 @@ export class VDPAccessorySwitch extends VDPAccessory implements VDPAccessoryChar
     }
 
     getOn(): CharacteristicValue { // Promise<CharacteristicValue> {
-        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<getOn> ', this.On)
         return this.On;
     }
 
     setOn(value: CharacteristicValue) {
-        this.HBPlatform.log.debug('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value)
+        this.HBPlatform.log.warn('[VDPAccessorySwitch](' + this.name + ')<setOn> ', this.On + '|' + value)
         this.On = value as boolean;
-        const tstOn = value as string;
-        this.notify('VDPAccessorySwitch','<setOn>', tstOn, "TEST");
+        this.notify('VDPAccessorySwitch', 'setOn', this.On.toString(), 'N/A');
     }
 
     public update(observable: VDPObservable, key?: string, message?: string ): void {

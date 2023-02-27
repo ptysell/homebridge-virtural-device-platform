@@ -27,9 +27,16 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 	public get uniqueIdentifier(): string { return this._uniqueIdentifier}
 	protected set uniqueIdentifier(uniqueIdentifier: string) { this._uniqueIdentifier = uniqueIdentifier }
 
-	private _accessory: VDPAccessory;
-	public get accessory(): VDPAccessory { return this._accessory; }
-	protected set accessory(accessory: VDPAccessory ) { this._accessory = accessory }
+	private _accessory: VDPAccessorySwitch;
+	public get accessory(): VDPAccessorySwitch { return this._accessory; }
+	protected set accessory(accessory: VDPAccessorySwitch ) { this._accessory = accessory }
+
+	//private _accessoryState: boolean;
+	//public get accessoryState(): boolean { return this._accessoryState; }
+	//protected set accessoryState(accessoryState: boolean) { this._accessoryState = accessoryState; }
+	public get accessoryState(): boolean { return this.accessory.On; }
+	public set accessoryState(value: boolean) { this.accessory.setOn(value); }
+
 
 	private _accessories: VDPAccessory[];
 	public get accessories(): VDPAccessory[] { return this._accessories; }
@@ -54,6 +61,7 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
 
 		this._name = withName;
 		this._uniqueIdentifier = platform.api.hap.uuid.generate(this.name);
+		//this._accessoryState = false;
 
 		this._accessories = [];
 		this._containers = [];
@@ -65,12 +73,14 @@ export abstract class VDPHomeContainer implements VDPObserver, VDPObservable {
         if (existingTestRoomAccessory) {
             this._accessory = new VDPAccessorySwitch(this.HBPlatform, existingTestRoomAccessory);
 	    } else {
+			this.platform.log.error('SOMETHING -------------');
             const accessory = new this.HBPlatform.api.platformAccessory(this.name, this.uniqueIdentifier);
             this._accessory = new VDPAccessorySwitch(this.HBPlatform, accessory);
             this.HBPlatform.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
         }
 
 		this.attach(this.accessory);
+		this.accessory.attach(this);
 
 	}
 

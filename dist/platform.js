@@ -52,6 +52,17 @@ class VDPHomebridgePlatform {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
     discoverDevices() {
+        for (const accessory of this.accessories) {
+            this.log.warn('Purging ' + accessory.displayName + 'from the Platform');
+            this.api.unregisterPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
+        }
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--SUCCESS!!!--');
+        this.log.error('--------------');
+        this.log.error('--------------');
+        this.log.error('--------------');
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.
@@ -168,11 +179,11 @@ class VDPHomebridgePlatform {
         // ];
         // loop over the discovered devices and register each one if it has not already been registered
         for (const room of exampleDevices) {
-            this.log.error('Iterating ROOOM: ' + room.roomName);
+            // this.log.error('Iterating ROOOM: ' + room.roomName);
             const TestRoom = new VDPContainerRoom_1.VDPRoom(room.roomName, this);
             for (const TestRoomAccessory of room.roomAccessories) {
-                this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
-                const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID);
+                // this.log.error('Iterating ROOOM ACCESSORY: ' + TestRoomAccessory.accessoryName);
+                const TestRoomAccessoryUUID = this.api.hap.uuid.generate(TestRoomAccessory.accessoryID + Math.random());
                 let TestRoomAccessory2;
                 const existingTestRoomAccessory = this.accessories.find(accessory => accessory.UUID === TestRoomAccessoryUUID);
                 if (existingTestRoomAccessory) {
@@ -188,12 +199,12 @@ class VDPHomebridgePlatform {
                 TestRoom.addAccessory(TestRoomAccessory2);
             }
             for (const area of room.roomAreas) {
-                this.log.error('Iterating AREA: ' + area.areaName);
+                //this.log.error('Iterating AREA: ' + area.areaName);
                 const TestArea = new VDPContainerArea_1.VDPArea(area.areaName, this);
                 TestRoom.addContainer(TestArea);
                 for (const TestAreaAccessory of area.areaAccessories) {
-                    this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
-                    const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID);
+                    //this.log.error('Iterating AREA ACCESSORY: ' + TestAreaAccessory.accessoryName);
+                    const TestAreaAccessoryUUID = this.api.hap.uuid.generate(TestAreaAccessory.accessoryID + Math.random());
                     let TestAreaAccessory2;
                     const existingTestAreaAccessory = this.accessories.find(accessory => accessory.UUID === TestAreaAccessoryUUID);
                     if (existingTestAreaAccessory) {
